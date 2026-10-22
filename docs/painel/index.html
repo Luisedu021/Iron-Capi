@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Painel Iron Capi</title>
+<link rel="icon" type="image/png" href="../icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@500;700;800&family=Montserrat:wght@500;600;700&display=swap">
+<style>
+/* Painel do time: só lê a lista de espera. Quem decide o acesso são as regras do Firestore, não esta página. */
+:root {
+  color-scheme: light;
+  --marinho: #0B0D72; --lavanda: #7D80FE; --texto: #101021; --suave: #5F6390; --linha: rgba(11,13,114,.09);
+  --fundo: #E9EAF5; --sup: #fff; --sup2: #F4F5FB; --perigo: #C23B3B; --ok: #2E8A62;
+  --f-display: "Onest", "Segoe UI", system-ui, sans-serif; --f-ui: "Montserrat", "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(80% 50% at 100% 0%, rgba(146,148,255,.35), rgba(146,148,255,0)), var(--fundo); color: var(--texto); font-family: var(--f-display); }
+button, input { font: inherit; }
+button { cursor: pointer; border: 0; background: none; color: inherit; }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--lavanda); outline-offset: 2px; }
+[hidden] { display: none !important; }
+.wrap { width: 100%; max-width: 980px; margin: 0 auto; padding: 0 16px; }
+.top { display: flex; align-items: center; gap: 12px; padding: 18px 0; }
+.top img { width: 44px; height: 44px; border-radius: 12px; }
+.top .t { flex: 1; min-width: 0; }
+.top b { display: block; font-weight: 800; font-size: 18px; color: var(--marinho); }
+.top span { display: block; font-family: var(--f-ui); font-weight: 500; font-size: 12.5px; color: var(--suave); }
+.quem { display: flex; align-items: center; gap: 8px; font-family: var(--f-ui); font-weight: 600; font-size: 12.5px; color: var(--suave); }
+.quem .em { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 16px; border-radius: 999px; font-weight: 700; font-size: 14px; white-space: nowrap; }
+.btn.pri { background: var(--marinho); color: #fff; box-shadow: 0 6px 16px rgba(11,13,114,.25); }
+.btn.sec { background: var(--sup); color: var(--marinho); box-shadow: inset 0 0 0 1.5px rgba(125,128,254,.45); }
+.btn.mini { min-height: 34px; padding: 0 12px; font-size: 12.5px; }
+.btn.perigo { background: var(--perigo); color: #fff; }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn svg { width: 17px; height: 17px; flex: none; }
+.card { background: var(--sup); border-radius: 22px; box-shadow: 0 6px 24px rgba(11,13,114,.07); }
+.centro { max-width: 460px; margin: 8vh auto 0; padding: 30px 26px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.centro img { width: 72px; height: 72px; border-radius: 18px; }
+.centro h1 { margin: 4px 0 0; font-weight: 800; font-size: 24px; color: var(--marinho); }
+.centro p { margin: 0; font-family: var(--f-ui); font-weight: 500; font-size: 14px; line-height: 1.5; color: var(--suave); }
+.centro code { font-size: 12.5px; padding: 2px 6px; border-radius: 6px; background: var(--sup2); color: var(--marinho); }
+.aviso { width: 100%; padding: 10px 12px; border-radius: 12px; background: #FDECEC; font-family: var(--f-ui); font-weight: 600; font-size: 13px; color: var(--perigo); text-align: left; }
+.aviso:empty { display: none; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 14px; }
+.stat { padding: 16px 18px; }
+.stat small { display: block; font-family: var(--f-ui); font-weight: 700; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--suave); }
+.stat b { display: block; margin-top: 6px; font-weight: 800; font-size: 30px; line-height: 1; color: var(--marinho); font-variant-numeric: tabular-nums; }
+.barra { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 12px; }
+.busca { flex: 1 1 220px; display: flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 14px; border-radius: 999px; background: var(--sup2); color: var(--suave); }
+.busca svg { width: 18px; height: 18px; flex: none; }
+.busca input { flex: 1; min-width: 0; border: 0; background: transparent; font-family: var(--f-ui); font-size: 14px; color: var(--texto); }
+.busca input:focus { outline: none; }
+.busca:focus-within { box-shadow: 0 0 0 3px var(--lavanda); }
+.lista { margin-top: 12px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+th { padding: 12px 16px; text-align: left; font-family: var(--f-ui); font-weight: 700; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--suave); border-bottom: 1px solid var(--linha); }
+td { padding: 12px 16px; border-bottom: 1px solid var(--linha); font-family: var(--f-ui); font-weight: 500; font-size: 14px; }
+tr:last-child td { border-bottom: 0; }
+td.em { font-family: var(--f-display); font-weight: 700; color: var(--texto); word-break: break-all; }
+td.dt, td.or { color: var(--suave); white-space: nowrap; font-variant-numeric: tabular-nums; }
+td.ac { width: 1%; text-align: right; }
+.rm { width: 36px; height: 36px; border-radius: 999px; display: inline-grid; place-items: center; color: var(--suave); }
+.rm:hover { background: #FDECEC; color: var(--perigo); }
+.rm svg { width: 17px; height: 17px; }
+.vazio { padding: 40px 20px; text-align: center; font-family: var(--f-ui); font-weight: 500; font-size: 14px; color: var(--suave); }
+.rodape { margin: 18px 0 30px; font-family: var(--f-ui); font-weight: 500; font-size: 12px; line-height: 1.5; color: var(--suave); }
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); padding: 12px 18px; border-radius: 14px; background: #101021; color: #fff; font-family: var(--f-ui); font-weight: 600; font-size: 13.5px; box-shadow: 0 12px 30px rgba(0,0,0,.25); }
+dialog { width: min(420px, calc(100% - 32px)); border: 0; border-radius: 22px; padding: 22px; box-shadow: 0 30px 80px rgba(11,13,114,.3); }
+dialog::backdrop { background: rgba(16,16,33,.5); }
+dialog h2 { margin: 0 0 8px; font-weight: 800; font-size: 20px; color: var(--marinho); }
+dialog p { margin: 0 0 18px; font-family: var(--f-ui); font-weight: 500; font-size: 14px; line-height: 1.5; color: var(--suave); }
+dialog p b { color: var(--texto); word-break: break-all; }
+dialog .acoes { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+@media (max-width: 640px) {
+  .stats { grid-template-columns: 1fr 1fr; } .stat:first-child { grid-column: 1 / -1; }
+  .quem .em { display: none; }
+  thead { display: none; }
+  tr { display: grid; grid-template-columns: 1fr auto; padding: 10px 14px; border-bottom: 1px solid var(--linha); }
+  tr:last-child { border-bottom: 0; }
+  td { padding: 2px 0; border: 0; }
+  td.em { grid-column: 1; } td.ac { grid-column: 2; grid-row: 1 / span 3; align-self: center; }
+  td.dt, td.or { grid-column: 1; font-size: 12.5px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+<script src="../firebase-config.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <img src="../icon-192.png" alt="">
+    <div class="t"><b>Iron Capi</b><span>Painel do time · lista de espera</span></div>
+    <div class="quem" id="quem" hidden><span class="em" id="quem-em"></span><button class="btn sec mini" id="sair" type="button">Sair</button></div>
+  </header>
+  <main id="main" aria-live="polite"></main>
+</div>
+<dialog id="dlg" aria-labelledby="dlg-t">
+  <h2 id="dlg-t">Remover da lista?</h2>
+  <p><b id="dlg-em"></b> sai da lista de espera e não recebe o convite. Use quando a pessoa pedir para sair (LGPD). Não dá para desfazer.</p>
+  <div class="acoes"><button class="btn sec" type="button" value="nao" id="dlg-nao">Cancelar</button><button class="btn perigo" type="button" id="dlg-sim">Remover</button></div>
+</dialog>
+<script type="module">
+const cfg = window.IRON_FIREBASE;
+const $ = id => document.getElementById(id);
+const main = $('main');
+const IC = {
+  google: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M21.35 11.1H12v2.98h5.35c-.23 1.4-1.66 4.1-5.35 4.1-3.22 0-5.85-2.67-5.85-5.96S8.78 6.26 12 6.26c1.83 0 3.06.78 3.76 1.45l2.56-2.47C16.68 3.7 14.55 2.7 12 2.7 6.92 2.7 2.8 6.82 2.8 11.9s4.12 9.2 9.2 9.2c5.31 0 8.83-3.73 8.83-8.99 0-.6-.07-1.06-.15-1.51z"/></svg>',
+  busca: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+  baixar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>',
+  copiar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>',
+  atualizar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5"/></svg>',
+  lixo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg>',
+};
+// Só HTML fixo passa por aqui; e-mails e datas entram sempre por textContent.
+const tela = html => { main.innerHTML = html; };
+const toast = msg => { const t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status'); t.textContent = msg; document.body.append(t); setTimeout(() => t.remove(), 2400); };
+const centro = (titulo, texto, extra = '') => tela(`<section class="card centro"><img src="../icon-192.png" alt=""><h1>${titulo}</h1><p>${texto}</p>${extra}</section>`);
+
+if (!cfg) centro('Falta configurar o Firebase', 'Preencha <code>docs/firebase-config.js</code> com os dados do projeto. O passo a passo está em <code>firebase/README.md</code>.');
+else iniciar();
+
+async function iniciar() {
+  centro('Carregando…', 'Conectando ao Firebase.');
+  const F = await import('../vendor/firebase.js');
+  const { db, auth } = F.conectar(cfg, { auth: true });
+  let rows = [];
+
+  $('sair').onclick = () => F.signOut(auth);
+  // Sem uso por 30 minutos, a sessão termina sozinha.
+  let idle; const mexeu = () => { clearTimeout(idle); idle = setTimeout(() => auth.currentUser && F.signOut(auth).then(() => toast('Sessão encerrada por inatividade')), 30 * 60 * 1000); };
+  ['pointerdown', 'keydown', 'scroll'].forEach(ev => addEventListener(ev, mexeu, { passive: true }));
+
+  F.onAuthStateChanged(auth, async u => {
+    $('quem').hidden = !u; $('quem-em').textContent = u ? u.email : '';
+    if (!u) return entrar();
+    mexeu();
+    const admin = u.emailVerified && await F.getDoc(F.doc(db, 'admins', u.email)).then(d => d.exists(), () => false);
+    if (!admin) {
+      centro('Sem acesso', 'Esta conta não está liberada para ver a lista. Peça para alguém do time criar o documento <code>admins/&lt;seu e-mail&gt;</code> no Firestore.', '<p><b id="na-em"></b></p><button class="btn sec" id="na-sair" type="button">Entrar com outra conta</button>');
+      $('na-em').textContent = u.email; $('na-sair').onclick = () => F.signOut(auth);
+      return;
+    }
+    painel();
+  });
+
+  function entrar() {
+    centro('Acesso do time', 'Entre com a conta Google cadastrada como admin. A sessão vale só nesta aba.', `<div class="aviso" id="erro"></div><button class="btn pri" id="google" type="button">${IC.google} Entrar com Google</button>`);
+    $('google').onclick = async () => {
+      $('erro').textContent = '';
+      try { await F.signInWithPopup(auth, new F.GoogleAuthProvider()); }
+      catch (e) {
+        console.warn('Login:', e.code || e);
+        const msg = { 'auth/popup-blocked': 'O navegador bloqueou a janela de login. Libere pop-ups para esta página.', 'auth/unauthorized-domain': 'Este endereço não está autorizado no Firebase (Authentication › Configurações › Domínios autorizados).', 'auth/popup-closed-by-user': '' }[e.code];
+        $('erro').textContent = msg ?? 'Não deu para entrar agora. Tente de novo.';
+      }
+    };
+  }
+
+  function painel() {
+    tela(`<div class="stats"><div class="card stat"><small>Na lista</small><b id="st-total">–</b></div><div class="card stat"><small>Últimos 7 dias</small><b id="st-7">–</b></div><div class="card stat"><small>Hoje</small><b id="st-hoje">–</b></div></div>
+      <div class="card barra"><label class="busca">${IC.busca}<input id="busca" type="search" placeholder="Buscar e-mail" aria-label="Buscar e-mail"></label>
+        <button class="btn sec mini" id="atualizar" type="button">${IC.atualizar} Atualizar</button><button class="btn sec mini" id="copiar" type="button">${IC.copiar} Copiar e-mails</button><button class="btn pri mini" id="csv" type="button">${IC.baixar} Baixar CSV</button></div>
+      <div class="card lista"><table><thead><tr><th scope="col">E-mail</th><th scope="col">Inscrito em</th><th scope="col">Origem</th><th scope="col"><span hidden>Ações</span></th></tr></thead><tbody id="corpo"></tbody></table><div class="vazio" id="vazio" hidden></div></div>
+      <p class="rodape">Os dados ficam no Firestore e só contas em <code>admins</code> conseguem ler. A sessão termina ao fechar a aba ou depois de 30 minutos sem uso.</p>`);
+    $('busca').oninput = desenhar;
+    $('atualizar').onclick = carregar;
+    $('copiar').onclick = async () => { const lst = filtradas().map(r => r.email).join(', '); try { await navigator.clipboard.writeText(lst); toast(`${filtradas().length} e-mails copiados`); } catch { toast('Não deu para copiar'); } };
+    $('csv').onclick = baixarCsv;
+    carregar();
+  }
+
+  async function carregar() {
+    $('atualizar').disabled = true;
+    try {
+      const snap = await F.getDocs(F.query(F.collection(db, 'lista_espera'), F.orderBy('criadoEm', 'desc')));
+      rows = snap.docs.map(d => { const x = d.data(); return { id: d.id, email: String(x.email || ''), origem: String(x.origem || ''), em: x.criadoEm && x.criadoEm.toDate ? x.criadoEm.toDate() : null }; });
+    } catch (e) { toast(e.code === 'permission-denied' ? 'Sem permissão para ler a lista' : 'Não deu para carregar a lista'); rows = []; }
+    $('atualizar').disabled = false;
+    const agora = Date.now(), hoje = new Date().toDateString();
+    $('st-total').textContent = rows.length;
+    $('st-7').textContent = rows.filter(r => r.em && agora - r.em < 7 * 864e5).length;
+    $('st-hoje').textContent = rows.filter(r => r.em && r.em.toDateString() === hoje).length;
+    desenhar();
+  }
+
+  const filtradas = () => { const q = ($('busca').value || '').trim().toLowerCase(); return q ? rows.filter(r => r.email.includes(q)) : rows; };
+  const quando = d => d ? d.toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : '—';
+
+  function desenhar() {
+    const lst = filtradas(); const corpo = $('corpo'); corpo.replaceChildren();
+    for (const r of lst) {
+      const tr = document.createElement('tr');
+      for (const [cls, txt] of [['em', r.email], ['dt', quando(r.em)], ['or', r.origem]]) { const td = document.createElement('td'); td.className = cls; td.textContent = txt; tr.append(td); }
+      const td = document.createElement('td'); td.className = 'ac';
+      const b = document.createElement('button'); b.className = 'rm'; b.type = 'button'; b.innerHTML = IC.lixo; b.setAttribute('aria-label', `Remover ${r.email}`); b.onclick = () => remover(r);
+      td.append(b); tr.append(td); corpo.append(tr);
+    }
+    const vz = $('vazio'); vz.hidden = !!lst.length;
+    vz.textContent = rows.length ? 'Nenhum e-mail encontrado com essa busca.' : 'Ninguém na lista ainda. Compartilhe o link do protótipo!';
+  }
+
+  function remover(r) {
+    const dlg = $('dlg'); $('dlg-em').textContent = r.email;
+    $('dlg-nao').onclick = () => dlg.close();
+    $('dlg-sim').onclick = async () => {
+      $('dlg-sim').disabled = true;
+      try { await F.deleteDoc(F.doc(db, 'lista_espera', r.id)); toast('Removido da lista'); dlg.close(); await carregar(); }
+      catch { toast('Não deu para remover'); }
+      $('dlg-sim').disabled = false;
+    };
+    dlg.showModal();
+  }
+
+  function baixarCsv() {
+    // Ponto e vírgula e BOM: abre certo no Excel em português. Células que começam com = + - @ viram texto.
+    const cel = v => { let s = String(v); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return `"${s.replace(/"/g, '""')}"`; };
+    const linhas = [['email', 'inscrito_em', 'origem'], ...filtradas().map(r => [r.email, r.em ? r.em.toISOString() : '', r.origem])];
+    const blob = new Blob(['﻿' + linhas.map(l => l.map(cel).join(';')).join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `lista-espera-iron-capi-${new Date().toISOString().slice(0, 10)}.csv`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+}
+</script>
+</body>
+</html>

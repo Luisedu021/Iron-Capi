@@ -10,6 +10,7 @@
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
+<script src="firebase-config.js"></script>
 <title>Teste do Iron Capi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,11 +90,19 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
 /* Tab bar */
-.tabbar { flex: none; padding: 8px var(--gr) 14px var(--gl); }
-.tabbar nav { display: flex; justify-content: space-between; align-items: center; background: var(--marinho); border-radius: 22px; padding: 10px 18px; }
-.tab { width: 46px; height: 42px; border-radius: 16px; display: grid; place-items: center; color: #fff; }
-.tab svg.i { width: 24px; height: 24px; }
-.tab.on { width: 42px; border-radius: 999px; background: rgba(245,235,197,.4); color: var(--creme); }
+.tabbar { flex: none; padding: 6px max(12px, env(safe-area-inset-right, 0px)) 12px max(12px, env(safe-area-inset-left, 0px)); }
+/* Barra flutuante: a aba ativa vira cápsula com rótulo; Treinos, foco do app, tem um leve destaque. */
+.tabbar nav { display: flex; justify-content: space-between; align-items: center; gap: 2px; padding: 7px; border-radius: 999px; background: linear-gradient(180deg, #181A8E 0%, var(--marinho) 100%); box-shadow: 0 14px 30px rgba(11,13,114,.26), 0 3px 8px rgba(11,13,114,.16), inset 0 1px 0 rgba(255,255,255,.1); }
+.tab { flex: none; height: 48px; min-width: 44px; padding: 0 10px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; color: rgba(255,255,255,.62); transition: color .2s, background .2s; }
+.tab svg.i { width: 23px; height: 23px; flex: none; }
+.tab .tl { font-weight: 700; font-size: 13.5px; white-space: nowrap; }
+.tab.on { padding: 0 16px 0 13px; color: #fff; background: linear-gradient(180deg, #6B70FB 0%, #4B50E6 100%); box-shadow: 0 6px 16px rgba(60,66,230,.45), inset 0 1px 0 rgba(255,255,255,.28); }
+.tab.on.ent .tl { animation: tabIn .28s ease both; }
+@keyframes tabIn { from { opacity: 0; transform: translateX(-4px); } }
+.tab.main svg.i { width: 26px; height: 26px; }
+.tab.main:not(.on) { width: 48px; padding: 0; color: #fff; background: rgba(125,128,254,.24); box-shadow: inset 0 0 0 1px rgba(125,128,254,.42); }
+@media (hover: hover) { .tab:not(.on):hover { color: #fff; } }
+@media (max-width: 340px) { .tab .tl { display: none; } .tab.on { padding: 0 12px; } }
 
 /* Welcome + onboarding */
 .mascote-ring { border-radius: 999px; background: var(--lavanda); box-shadow: 0 0 0 6px rgba(255,255,255,.18), 0 18px 40px rgba(11,13,114,.35); overflow: hidden; flex: none; }
@@ -206,6 +215,25 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .hm-ban .ic { width: 38px; height: 38px; border-radius: 12px; background: var(--marinho); color: #fff; display: grid; place-items: center; flex: none; }
 .hm-ban b { display: block; font-weight: 700; font-size: 14px; color: var(--marinho); }
 .hm-ban small { display: block; margin-top: 2px; font-family: var(--f-ui); font-weight: 500; font-size: 12px; color: var(--suave); }
+/* Lista de espera do app de verdade: cartão creme para não competir com os cartões azuis. */
+.esp { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 12px 12px 10px; border-radius: 20px; background: linear-gradient(120deg, #FFF7DC 0%, #F5EBC5 100%); box-shadow: inset 0 0 0 1px rgba(201,138,10,.18); text-align: left; }
+.esp .mascote-ring { box-shadow: 0 4px 12px rgba(11,13,114,.18); }
+.esp b { display: block; font-weight: 800; font-size: 15px; line-height: 1.25; color: var(--marinho); }
+.esp small { display: block; margin-top: 3px; font-family: var(--f-ui); font-weight: 500; font-size: 12px; line-height: 1.4; color: #5B5470; }
+.esp-go { flex: none; padding: 9px 13px; border-radius: 999px; background: var(--marinho); color: #fff; font-weight: 700; font-size: 13px; white-space: nowrap; box-shadow: 0 4px 12px rgba(11,13,114,.25); }
+.esp.ok { padding: 12px 6px 12px 14px; }
+.esp.ok .tk { width: 34px; height: 34px; border-radius: 999px; background: var(--sucesso); color: #fff; display: grid; place-items: center; flex: none; }
+.esp.ok .tk svg.i { width: 18px; height: 18px; stroke-width: 3; }
+@media (max-width: 360px) { .esp .mascote-ring { display: none; } }
+.esp-s { gap: 12px; }
+.esp-hd { display: flex; align-items: center; gap: 12px; }
+.esp-hd p { margin: 0; font-family: var(--f-ui); font-weight: 500; font-size: 13.5px; line-height: 1.45; color: #4A4C7A; }
+.esp-ck { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border-radius: 14px; background: #F4F5FB; font-family: var(--f-ui); font-weight: 500; font-size: 12.5px; line-height: 1.45; color: #4A4C7A; cursor: pointer; }
+.esp-ck input { width: 20px; height: 20px; margin: 0; flex: none; accent-color: var(--marinho); }
+.esp-err { min-height: 0; font-family: var(--f-ui); font-weight: 600; font-size: 12.5px; color: #C23B3B; }
+.esp-err:empty { display: none; }
+.esp-demo { margin: 0; padding: 10px 12px; border-radius: 12px; background: #FFF3E0; font-family: var(--f-ui); font-weight: 600; font-size: 12px; line-height: 1.4; color: #8A4B0F; }
+.esp-fim { font-family: var(--f-ui); font-weight: 500; font-size: 11.5px; line-height: 1.4; color: var(--suave); text-align: center; }
 .hm-x { width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; color: #4A4C7A; flex: none; }
 .hm-x svg.i { width: 18px; height: 18px; }
 .hm-water { position: relative; display: block; width: 100%; height: 204px; margin-top: 25px; padding: 0 18px; border-radius: 20px; background: linear-gradient(180deg, #7BABFF 0%, #2C2E91 135%); color: #fff; text-align: left; }
@@ -214,13 +242,6 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .hm-lt { display: flex; justify-content: space-between; align-items: center; margin-bottom: -6px; }
 .hm-lt b { font-weight: 700; font-size: 16px; color: var(--marinho); }
 .hm-lt button { padding: 10px 0 10px 10px; font-family: var(--f-ui); font-weight: 600; font-size: 12px; color: #7D80FE; }
-.hm-car { display: flex; gap: 12px; overflow-x: auto; margin: 0 calc(-1 * var(--gr)) 0 calc(-1 * var(--gl)); padding: 2px var(--gr) 4px var(--gl); scrollbar-width: none; scroll-snap-type: x proximity; scroll-padding-left: var(--gl); }
-.hm-car::-webkit-scrollbar { display: none; }
-.hm-tc { flex: none; width: 150px; min-height: 86px; padding: 12px 14px; border-radius: 20px; background: #fff; border: 1px solid #ECEEF8; display: flex; flex-direction: column; gap: 4px; scroll-snap-align: start; }
-.hm-tc small { font-family: var(--f-ui); font-weight: 500; font-size: 11px; color: var(--suave); }
-.hm-tc b { font-weight: 700; font-size: 14px; color: var(--marinho); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hm-tc span { display: flex; align-items: center; gap: 4px; font-family: var(--f-ui); font-weight: 500; font-size: 11px; color: #4A4C7A; white-space: nowrap; }
-.hm-tc span svg.i { width: 13px; height: 13px; }
 @media (max-width: 380px) { .hm-card { padding: 16px; } .hm-st { gap: 12px; } .hm-fl { width: 46px; height: 46px; } .hm-st .n { font-size: 26px; } .hm-st .d { font-size: 15px; } .hm-esc { padding: 5px 9px; font-size: 11px; } .hm-res > div { padding: 9px 10px; } .hm-res small { white-space: normal; font-size: 10px; } }
 .empty { padding: 16px; border-radius: 16px; background: rgba(255,255,255,.6); box-shadow: inset 0 0 0 1px rgba(125,128,254,.35); font-family: var(--f-ui); font-size: 13px; color: var(--suave); }
 
@@ -230,16 +251,22 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .ficha .soon { position: absolute; right: 12px; bottom: 12px; }
 /* Treinos (Figma 579:2927) */
 .tr { padding-top: 14px; padding-bottom: 18px; display: flex; flex-direction: column; gap: 14px; }
-.tr-new { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 53px; margin-top: -2px; padding: 0 16px; border-radius: 8px; background: var(--marinho); color: #fff; font-weight: 700; font-size: 15px; text-align: left; transition: transform .12s ease; }
+.tr-new { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 56px; margin-top: -2px; padding: 0 12px; border-radius: 18px; background: linear-gradient(135deg, #1D2096 0%, var(--marinho) 100%); box-shadow: 0 8px 20px rgba(11,13,114,.22); color: #fff; font-weight: 700; font-size: 15px; text-align: left; transition: transform .12s ease; }
 .tr-new:active { transform: scale(.99); }
-.tr-new .pl { width: 34px; height: 34px; display: grid; place-items: center; flex: none; }
-.tr-h { margin: 0 0 -4px; font-weight: 400; font-size: 18px; color: #000; }
+.tr-new .pl { width: 34px; height: 34px; border-radius: 999px; background: rgba(255,255,255,.14); display: grid; place-items: center; flex: none; }
+.tr-h { margin: 0 0 -4px; font-weight: 700; font-size: 18px; letter-spacing: -.01em; color: #101021; }
 .tr-cats { display: flex; gap: 6px; overflow-x: auto; margin: 0 calc(-1 * var(--gr)) 0 calc(-1 * var(--gl)); padding: 0 var(--gr) 2px var(--gl); scrollbar-width: none; }
 .tr-cats::-webkit-scrollbar { display: none; }
 .tr-cat { flex: none; width: 70px; display: flex; flex-direction: column; align-items: center; min-height: 80px; font-weight: 400; font-size: 12px; color: #000; text-align: center; }
 .tr-cat .b { width: 50px; height: 50px; margin-bottom: 9px; border-radius: 10px; background: #fff; color: var(--marinho); display: grid; place-items: center; box-shadow: 0 2px 10px rgba(11,13,114,.05); transition: background .15s, color .15s; }
 .tr-cat.on { font-weight: 700; color: var(--marinho); }
-.tr-cat.on .b { background: var(--marinho); color: #fff; }
+.tr-cat .b { --t: #5B5FE0; background: color-mix(in srgb, var(--t) 11%, #fff); color: var(--t); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t) 14%, transparent); }
+.tr-cat .b.azul { --t: #343B9D; }
+.tr-cat .b.verde { --t: #23805B; }
+.tr-cat .b.amarelo { --t: #9A7614; background: #FBF1CF; }
+.tr-cat .b.fav { --t: #E5484D; }
+.tr-cat.on .b { background: var(--t); color: #fff; box-shadow: 0 6px 14px color-mix(in srgb, var(--t) 35%, transparent); }
+.tr-cat.on .b.amarelo { background: #E3C258; color: #2B240D; }
 .tr-lt { display: flex; justify-content: space-between; align-items: center; margin-bottom: -4px; }
 .tr-lt .tr-h { margin: 0; }
 .tr-lt button { padding: 8px 0 8px 10px; font-family: var(--f-ui); font-weight: 600; font-size: 12px; color: #7D80FE; }
@@ -289,6 +316,16 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .pg-seg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; margin-top: -2px; padding: 4px; border-radius: 14px; background: #ECEEF8; }
 .pg-seg button { min-height: 33px; border-radius: 11px; font-weight: 600; font-size: 13px; color: var(--suave); transition: background .15s, color .15s; }
 .pg-seg button.on { background: #fff; color: var(--marinho); font-weight: 700; box-shadow: 0 2px 12px rgba(11,13,114,.06); }
+/* Fundo branco deslizante: afterRender define --n e --i e, quando a opção muda, --p (a anterior) e .mv. */
+.pg-seg.sl { position: relative; isolation: isolate; }
+.pg-seg.sl::before { content: ''; position: absolute; z-index: -1; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px - (var(--n) - 1) * 4px) / var(--n)); border-radius: 11px; background: #fff; box-shadow: 0 2px 12px rgba(11,13,114,.08); transform: translateX(calc(var(--i) * (100% + 4px))); }
+.pg-seg.sl button.on { background: transparent; box-shadow: none; }
+.pg-seg.mv::before { animation: segMv .36s cubic-bezier(.3,.9,.3,1); }
+.pg-seg.mv button.on { animation: segTx .36s ease; }
+@keyframes segMv { from { transform: translateX(calc(var(--p) * (100% + 4px))); } }
+@keyframes segTx { from { color: var(--suave); } }
+.seg-in { animation: segIn .36s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes segIn { from { opacity: 0; transform: translateX(calc(var(--dir, 1) * 20px)); } }
 .pg-lvl { display: flex; flex-direction: column; gap: 12px; padding: 18px; border-radius: 22px; background: linear-gradient(160deg, #343B9D 0%, #0B0D72 100%); color: #fff; }
 .pg-lvl .hm-av .c img { padding: 2px; border-radius: 999px; }
 .pg-lvl .k { font-weight: 800; font-size: 11px; letter-spacing: .1em; color: #BFC2FF; }
@@ -554,6 +591,37 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .ag-waves { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
 .ag-card { position: relative; width: 100%; max-width: 338px; padding: 14px 14px 12px; border-radius: 20px; background: #fff; text-align: left; box-shadow: 0 4px 14px rgba(11,13,114,.08); }
 .ag-ct { font-weight: 700; font-size: 19px; color: var(--marinho); }
+.ag-cth { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.ag-meta { display: inline-flex; align-items: center; gap: 5px; min-height: 32px; padding: 0 11px; border-radius: 999px; background: #EEF2FF; font-family: var(--f-ui); font-weight: 700; font-size: 12px; color: #2E4FB8; white-space: nowrap; }
+.ag-meta svg.i { width: 13px; height: 13px; }
+.cal .ag-meta { background: #FFF1E3; color: #A4500F; }
+.cal-goal { margin-bottom: 10px; font-size: 15px; }
+.cal-goal span { color: #A4500F; }
+/* Modal de meta: o Calipe pede a meta e sugere um valor; o usuário ajusta com − e +. */
+.mt { position: relative; gap: 14px; padding-top: 24px; --ac: #2E63D6; --acs: #E9EFFF; }
+.mt.cal { --ac: #D9691A; --acs: #FFF0E1; }
+.mt-x { position: absolute; right: 12px; top: 12px; margin: 0; }
+.mt-hd { display: flex; align-items: flex-end; gap: 10px; width: 100%; text-align: left; }
+.mt-cap { width: 92px; height: 104px; object-fit: contain; object-position: bottom; flex: none; filter: drop-shadow(0 8px 14px rgba(11,13,114,.2)); animation: mtCap .5s cubic-bezier(.3,1.4,.5,1) both; }
+.mt-hd .mascote-ring { box-shadow: 0 8px 18px rgba(11,13,114,.2); animation: mtCap .5s cubic-bezier(.3,1.4,.5,1) both; }
+@keyframes mtCap { from { transform: translateY(14px) scale(.9); opacity: 0; } }
+.mt-bub { position: relative; flex: 1; margin-bottom: 18px; padding: 12px 14px; border-radius: 18px 18px 18px 6px; background: var(--acs); animation: mtBub .35s .12s ease both; }
+.mt-bub::before { content: ''; position: absolute; left: -7px; bottom: 8px; border: 8px solid transparent; border-right-color: var(--acs); border-left: 0; }
+@keyframes mtBub { from { opacity: 0; transform: translateX(-6px); } }
+.mt-bub b { display: block; font-weight: 800; font-size: 16px; line-height: 1.25; color: var(--marinho); }
+.mt-bub span { display: block; margin-top: 4px; font-family: var(--f-ui); font-weight: 500; font-size: 12.5px; line-height: 1.4; color: #4A4C7A; }
+.mt-val { display: flex; align-items: center; justify-content: center; gap: 18px; width: 100%; }
+.mt-val output { min-width: 128px; font-weight: 800; font-size: 40px; line-height: 1; color: var(--ac); }
+.mt-val output small { margin-left: 4px; font-size: 16px; font-weight: 700; color: var(--suave); }
+.mt-pm { width: 48px; height: 48px; border-radius: 999px; background: var(--acs); color: var(--ac); display: grid; place-items: center; flex: none; transition: transform .1s; }
+.mt-pm:active { transform: scale(.92); }
+.mt-pm svg.i { width: 20px; height: 20px; stroke-width: 2.6; }
+.mt-pm:disabled { opacity: .35; }
+.mt-sug { min-height: 28px; display: flex; align-items: center; justify-content: center; gap: 6px; font-family: var(--f-ui); font-weight: 600; font-size: 12.5px; color: var(--suave); }
+.mt-sug .ok { display: inline-flex; align-items: center; gap: 5px; padding: 5px 11px; border-radius: 999px; background: var(--acs); color: var(--ac); font-weight: 700; }
+.mt-sug .ok svg.i { width: 13px; height: 13px; }
+.mt-sug button { color: var(--ac); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.mt-why { margin: -4px 0 2px; font-family: var(--f-ui); font-weight: 500; font-size: 11.5px; line-height: 1.45; color: var(--suave); }
 .ag-amt { margin-top: 10px; font-weight: 700; }
 .ag-amt b { font-size: 19px; color: var(--marinho); }
 .ag-amt span { font-size: 16px; color: #6F6F6F; }
@@ -608,9 +676,13 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .wc-tag { position: absolute; left: 4%; top: 8%; padding: 4px 16px; border-radius: 10px; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.55); font-size: 10px; }
 .wc-tx { position: absolute; left: 3.8%; top: 24%; max-width: 55%; }
 .wc-tx b { display: block; font-weight: 400; font-size: 26px; font-size: 6.6cqw; line-height: 1.15; white-space: nowrap; }
+.wc-tx b.lg { font-size: 22px; font-size: 5.9cqw; }
 .wc-tx span { display: flex; align-items: center; gap: 4px; margin-top: 6px; font-size: 12px; font-size: max(11px, 3cqw); white-space: nowrap; }
 .wc-tx span svg.i { width: 1.1em; height: 1.1em; }
 .wc-tx span i { width: 8px; }
+.wc.lt { color: #2B240D; }
+.wc.lt .wc-tag { background: rgba(255,255,255,.4); border-color: rgba(255,255,255,.9); }
+.wc.lt .wc-go { box-shadow: 0 5px 15px rgba(110,88,24,.22); }
 .wc-go { position: absolute; left: 3%; bottom: 8.5%; width: 35%; height: 21.5%; border-radius: 26px; background: var(--bt); display: grid; place-items: center; font-family: var(--f-ui); font-weight: 700; font-size: 14px; font-size: max(12px, 3.5cqw); box-shadow: 0 5px 15px rgba(11,13,114,.3); }
 
 /* Sino com contador */
@@ -835,6 +907,10 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .dt-infos small { display: flex; align-items: center; gap: 4px; font-family: var(--f-ui); font-weight: 500; font-size: 12px; opacity: .8; }
 .dt-infos small svg.i { width: 14px; height: 14px; }
 .dt-infos b { display: block; margin-top: 2px; font-weight: 700; font-size: 16px; }
+.dt-hero.lt { color: #2B240D; }
+.dt-hero.lt .dt-info, .dt-hero.lt .dt-info h1 { text-shadow: none; }
+.dt-hero.lt .dt-chips span { background: rgba(43,36,13,.1); }
+.dt-hero.lt .dt-infos i { background: rgba(43,36,13,.25); }
 .dt-sheet { position: relative; margin-top: -28px; padding: 26px var(--gr) 16px var(--gl); border-radius: 28px 28px 0 0; background: #fff; display: flex; flex-direction: column; gap: 4px; }
 .dt-sh { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .dt-sh b { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; color: #101021; }
@@ -1040,13 +1116,21 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .hs-top small { display: block; margin-top: 2px; font-family: var(--f-ui); font-weight: 500; font-size: 12px; color: var(--suave); }
 .hs { display: flex; flex-direction: column; gap: 8px; padding-bottom: 20px; }
 .hs-m { margin-top: 8px; font-family: var(--f-ui); font-weight: 700; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--suave); }
-.hs-r { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 10px 12px; border-radius: 16px; background: #fff; text-align: left; box-shadow: 0 2px 10px rgba(11,13,114,.05); }
-.hs-r > svg.i { width: 16px; height: 16px; color: var(--suave); }
-.hs-d { width: 42px; flex: none; text-align: center; }
-.hs-d b { display: block; font-weight: 800; font-size: 19px; color: var(--marinho); line-height: 1; }
-.hs-d small { font-family: var(--f-ui); font-size: 11px; color: var(--suave); }
-.hs-r .grow b { display: block; font-size: 15px; color: #101021; }
-.hs-r .grow small { display: block; margin-top: 3px; font-family: var(--f-ui); font-size: 12px; color: var(--suave); }
+/* Histórico em lista agrupada: nome e data à esquerda, tempo e volume em colunas com rótulo pequeno em cima. */
+.hl { border-radius: 22px; background: rgba(255,255,255,.85); border: 1px solid #fff; box-shadow: 0 6px 20px rgba(11,13,114,.07); overflow: hidden; }
+.hl-r { position: relative; display: flex; align-items: center; gap: 12px; width: 100%; min-height: 70px; padding: 14px 16px; text-align: left; transition: background .15s; }
+.hl-r + .hl-r::before { content: ''; position: absolute; left: 16px; right: 16px; top: 0; height: 1px; background: rgba(11,13,114,.08); }
+.hl-r:active { background: rgba(125,128,254,.08); }
+.hl-r .grow { min-width: 0; }
+.hl-r .grow b { display: flex; align-items: baseline; gap: 7px; font-weight: 700; font-size: 16px; line-height: 1.25; color: #101021; }
+.hl-r .grow b i { width: 8px; height: 8px; flex: none; border-radius: 99px; background: var(--c); transform: translateY(-1px); }
+.hl-r .grow small { display: block; margin-top: 4px; padding-left: 15px; font-family: var(--f-ui); font-weight: 500; font-size: 12px; color: var(--suave); }
+.hl-m { flex: none; min-width: 46px; display: flex; flex-direction: column; gap: 3px; }
+.hl-m + .hl-m { padding-left: 12px; border-left: 1px solid rgba(11,13,114,.1); }
+.hl-m small { font-family: var(--f-ui); font-weight: 700; font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--suave); }
+.hl-m b { font-weight: 700; font-size: 20px; line-height: 1.1; color: var(--marinho); white-space: nowrap; }
+.hl-m b i { margin-left: 2px; font-style: normal; font-weight: 600; font-size: 11px; color: var(--suave); }
+@media (max-width: 340px) { .hl-r { padding: 12px; gap: 8px; } .hl-m + .hl-m { padding-left: 8px; } .hl-m b { font-size: 17px; } .hl-r .ser { display: none; } }
 .hs-pr { display: inline-flex; align-items: center; gap: 3px; color: #9A6A05; font-family: var(--f-ui); font-weight: 700; font-size: 11.5px; }
 .hs-pr svg.i { width: 12px; height: 12px; }
 .hs-met { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
@@ -1065,7 +1149,6 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .hs-del { width: 40px; height: 40px; flex: none; display: grid; place-items: center; color: var(--suave); }
 .hs-del svg.i { width: 16px; height: 16px; }
 .btn.hs-rm { color: #C23B3B; }
-.hm-tc { text-align: left; }
 
 .rcv { overflow: hidden; }
 .rcv-i { width: 36px; height: 36px; margin: -8px -8px -8px 0; display: grid; place-items: center; color: var(--suave); }
@@ -1350,8 +1433,19 @@ const stageOf = L => STAGES.find(s => L >= s[1] && L <= s[2])[0];
 const XP = { serie: 10, treino: 100, recorde: 50, sequencia: 20, metaSemana: 50, agua: 25, refeicao: 20 };
 
 /* ---------- Fichas ---------- */
+// Cores de treino (Figma 394:2230): só três, pela categoria. Azul = hipertrofia; verde = força e recuperação; amarelo = funcional e cardio, com texto escuro.
+const CORES = {
+  azul: { nome: 'Azul', bg: '#343B9D', bt: '#0E1087', hero: ['#7D80FE', '#343B9D', '#0B0D72'] },
+  verde: { nome: 'Verde', bg: '#349D73', bt: '#22674B', hero: ['#5CC49A', '#349D73', '#1F6B4C'] },
+  amarelo: { nome: 'Amarelo', bg: '#E3C258', bt: 'rgba(110,88,24,.28)', hero: ['#F2D98A', '#E3C258', '#B8962E'], lt: true }
+};
+const TAGCOR = { Hipertrofia: 'azul', 'Força': 'verde', 'Recuperação': 'verde', Mobilidade: 'verde', Funcional: 'amarelo', Cardio: 'amarelo' };
+// Treinos criados antes guardavam a cor em hex: leva cada uma para a mais próxima das três.
+const COR_ANTIGA = { '#5A5EE6': 'azul', '#2E63D6': 'azul', '#0B0D72': 'azul', '#349D73': 'verde', '#5E9E3A': 'verde', '#E07A5F': 'amarelo', '#E3A92B': 'amarelo' };
+const corKey = w => CORES[w.cor] ? w.cor : (Array.isArray(w.cor) && COR_ANTIGA[w.cor[0]]) || TAGCOR[w.tag] || 'azul';
+const corOf = w => CORES[corKey(w)];
 const W = {
-  fullbody: { nome: 'Full Body', img: 'cardFullBody', musc: 'Peito, Costas, Bíceps, Tríceps e Pernas', nivel: 'Iniciante', tempo: '50–70 min', met: 5,
+  fullbody: { nome: 'Full Body', img: 'cardFullBody', cor: 'azul', musc: 'Peito, Costas, Bíceps, Tríceps e Pernas', nivel: 'Iniciante', tempo: '50–70 min', met: 5,
     ex: [
       { id: 'supino', nome: 'Supino reto', musc: ['Peito', 'Tríceps'], s: 4, r: 10, rest: 90, demo: 40, novo: 20 },
       { id: 'puxada', nome: 'Puxada frontal', musc: ['Costas', 'Bíceps'], s: 3, r: 12, rest: 60, demo: 45, novo: 25 },
@@ -1359,7 +1453,7 @@ const W = {
       { id: 'triceps', nome: 'Tríceps corda', musc: ['Tríceps'], s: 3, r: 15, rest: 45, demo: 20, novo: 10 },
       { id: 'agacho', nome: 'Agachamento livre', musc: ['Pernas', 'Glúteos'], s: 4, r: 8, rest: 120, demo: 50, novo: 20 }
     ] },
-  upperlower: { nome: 'Upper-Lower', img: 'cardUpperLower', musc: 'Peito, Costas, Ombros e Pernas', nivel: 'Intermediário', tempo: '45–75 min', met: 5,
+  upperlower: { nome: 'Upper-Lower', img: 'cardUpperLower', cor: 'verde', musc: 'Peito, Costas, Ombros e Pernas', nivel: 'Intermediário', tempo: '45–75 min', met: 5,
     ex: [
       { id: 'inclinado', nome: 'Supino inclinado', musc: ['Peito', 'Ombros'], s: 4, r: 8, rest: 90, demo: 30, novo: 16 },
       { id: 'remada', nome: 'Remada curvada', musc: ['Costas'], s: 4, r: 10, rest: 90, demo: 40, novo: 20 },
@@ -1367,7 +1461,7 @@ const W = {
       { id: 'legpress', nome: 'Leg press', musc: ['Pernas'], s: 4, r: 12, rest: 90, demo: 120, novo: 60 },
       { id: 'stiff', nome: 'Stiff', musc: ['Posterior', 'Glúteos'], s: 3, r: 10, rest: 90, demo: 40, novo: 20 }
     ] },
-  funcional: { nome: 'Funcional', img: 'cardFuncional', musc: 'Corpo inteiro e condicionamento', nivel: 'Iniciante', tempo: '50–80 min', met: 6,
+  funcional: { nome: 'Funcional', img: 'cardFuncional', cor: 'amarelo', musc: 'Corpo inteiro e condicionamento', nivel: 'Iniciante', tempo: '50–80 min', met: 6,
     ex: [
       { id: 'kb', nome: 'Kettlebell swing', musc: ['Glúteos', 'Core'], s: 3, r: 15, rest: 45, demo: 16, novo: 8 },
       { id: 'afundo', nome: 'Afundo com halteres', musc: ['Pernas'], s: 3, r: 10, rest: 60, demo: 10, novo: 4 },
@@ -1375,7 +1469,7 @@ const W = {
       { id: 'salto', nome: 'Agachamento com salto', musc: ['Pernas'], s: 3, r: 12, rest: 45, demo: 0, novo: 0 },
       { id: 'escalador', nome: 'Escalador', musc: ['Core'], s: 3, r: 20, rest: 45, demo: 0, novo: 0 }
     ] },
-  peito: { nome: 'Peito e Tríceps', tag: 'Hipertrofia', foto: 'fotoPerfil', cor: ['#5A5EE6', '#2C2E91'], musc: 'Peito, ombros e tríceps', nivel: 'Intermediário', tempo: '45–60 min', met: 5,
+  peito: { nome: 'Peito e Tríceps', tag: 'Hipertrofia', foto: 'fotoPerfil', cor: 'azul', musc: 'Peito, ombros e tríceps', nivel: 'Intermediário', tempo: '45–60 min', met: 5,
     ex: [
       { id: 'supino', nome: 'Supino reto', musc: ['Peito', 'Tríceps'], s: 4, r: 10, rest: 90, demo: 40, novo: 20 },
       { id: 'inclinado', nome: 'Supino inclinado', musc: ['Peito', 'Ombros'], s: 3, r: 10, rest: 90, demo: 30, novo: 16 },
@@ -1383,7 +1477,7 @@ const W = {
       { id: 'triceps', nome: 'Tríceps corda', musc: ['Tríceps'], s: 3, r: 12, rest: 45, demo: 20, novo: 10 },
       { id: 'triceps_testa', nome: 'Tríceps testa', musc: ['Tríceps'], s: 3, r: 10, rest: 60, demo: 20, novo: 10 }
     ] },
-  costas: { nome: 'Costas e Bíceps', tag: 'Hipertrofia', foto: 'hero', cor: ['#2E63D6', '#123E9C'], musc: 'Costas, ombros e bíceps', nivel: 'Intermediário', tempo: '45–60 min', met: 5,
+  costas: { nome: 'Costas e Bíceps', tag: 'Hipertrofia', foto: 'hero', cor: 'azul', musc: 'Costas, ombros e bíceps', nivel: 'Intermediário', tempo: '45–60 min', met: 5,
     ex: [
       { id: 'puxada', nome: 'Puxada frontal', musc: ['Costas', 'Bíceps'], s: 4, r: 10, rest: 90, demo: 45, novo: 25 },
       { id: 'remada', nome: 'Remada curvada', musc: ['Costas'], s: 4, r: 10, rest: 90, demo: 40, novo: 20 },
@@ -1391,7 +1485,7 @@ const W = {
       { id: 'rosca', nome: 'Rosca martelo', musc: ['Bíceps', 'Antebraço'], s: 3, r: 12, rest: 60, demo: 16, novo: 8 },
       { id: 'rosca_scott', nome: 'Rosca Scott', musc: ['Bíceps'], s: 3, r: 10, rest: 60, demo: 20, novo: 10 }
     ] },
-  pernas: { nome: 'Pernas e Glúteos', tag: 'Força', foto: 'fotoDuplaF', heroImg: 'fotoDuplaF', cor: ['#E07A5F', '#A9472F'], musc: 'Quadríceps, posteriores, glúteos e panturrilha', nivel: 'Iniciante', tempo: '50–70 min', met: 6,
+  pernas: { nome: 'Pernas e Glúteos', tag: 'Força', foto: 'fotoDuplaF', heroImg: 'fotoDuplaF', cor: 'verde', musc: 'Quadríceps, posteriores, glúteos e panturrilha', nivel: 'Iniciante', tempo: '50–70 min', met: 6,
     ex: [
       { id: 'agacho', nome: 'Agachamento livre', musc: ['Pernas', 'Glúteos'], s: 4, r: 8, rest: 120, demo: 50, novo: 20 },
       { id: 'legpress', nome: 'Leg press', musc: ['Pernas'], s: 4, r: 12, rest: 90, demo: 120, novo: 60 },
@@ -1400,7 +1494,7 @@ const W = {
       { id: 'stiff', nome: 'Stiff', musc: ['Posterior', 'Glúteos'], s: 3, r: 10, rest: 90, demo: 40, novo: 20 },
       { id: 'panturrilha', nome: 'Panturrilha em pé', musc: ['Pernas'], s: 3, r: 15, rest: 45, demo: 40, novo: 20 }
     ] },
-  dupla: { nome: 'Treino em dupla', tag: 'Funcional', foto: 'fotoDuplaM', heroImg: 'fotoDuplaM', cor: ['#0B0D72', '#343B9D'], musc: 'Corpo inteiro · um faz, o outro conta', nivel: 'Iniciante', tempo: '30–40 min', met: 6,
+  dupla: { nome: 'Treino em dupla', tag: 'Funcional', foto: 'fotoDuplaM', heroImg: 'fotoDuplaM', cor: 'amarelo', musc: 'Corpo inteiro · um faz, o outro conta', nivel: 'Iniciante', tempo: '30–40 min', met: 6,
     ex: [
       { id: 'flexao', nome: 'Flexão de braço', musc: ['Peito', 'Tríceps'], s: 3, r: 10, rest: 45, demo: 0, novo: 0 },
       { id: 'afundo', nome: 'Afundo com halteres', musc: ['Pernas'], s: 3, r: 10, rest: 60, demo: 10, novo: 4 },
@@ -1408,14 +1502,14 @@ const W = {
       { id: 'kb', nome: 'Kettlebell swing', musc: ['Glúteos', 'Core'], s: 3, r: 15, rest: 45, demo: 16, novo: 8 },
       { id: 'salto', nome: 'Agachamento com salto', musc: ['Pernas'], s: 3, r: 12, rest: 45, demo: 0, novo: 0 }
     ] },
-  mobilidade: { nome: 'Mobilidade', tag: 'Recuperação', foto: 'capiTerere', heroImg: 'capiTerere', cor: ['#5E9E3A', '#3F7A1F'], musc: 'Alongamento e mobilidade · bom no dia de descanso', nivel: 'Iniciante', tempo: '15–20 min', met: 2.5,
+  mobilidade: { nome: 'Mobilidade', tag: 'Recuperação', foto: 'capiTerere', heroImg: 'capiTerere', cor: 'verde', musc: 'Alongamento e mobilidade · bom no dia de descanso', nivel: 'Iniciante', tempo: '15–20 min', met: 2.5,
     ex: [
       { id: 'gato_vaca', nome: 'Gato-vaca', musc: ['Core', 'Costas'], s: 2, r: 10, rest: 30, demo: 0, novo: 0 },
       { id: 'rot_toracica', nome: 'Rotação torácica', musc: ['Costas'], s: 2, r: 10, rest: 30, demo: 0, novo: 0 },
       { id: 'quadril_90', nome: 'Quadril 90/90', musc: ['Pernas'], s: 2, r: 8, rest: 30, demo: 0, novo: 0 },
       { id: 'along_post', nome: 'Alongamento posterior', musc: ['Posterior'], s: 2, r: 30, rest: 30, demo: 0, novo: 0 }
     ] },
-  corrida: { nome: 'Corrida', img: 'cardCorrida', soon: true }
+  corrida: { nome: 'Corrida', img: 'cardCorrida', cor: 'amarelo', soon: true }
 };
 
 /* ---------- Estado ---------- */
@@ -1491,7 +1585,13 @@ function addXp(n) {
   while (S.xp >= need(S.level)) { S.xp -= need(S.level); S.level++; }
   return { from: before, to: S.level };
 }
-function waterGoal() { return 2500; }
+// Metas diárias: o usuário define (o Calipe pede na primeira vez e sugere um valor de partida).
+const META = {
+  agua: { min: 1000, max: 5000, step: 250, un: 'L', fmt: v => (v / 1000).toFixed(2).replace(/0$/, '').replace('.', ','), sug: () => S.user.genero === 'Feminino' ? 2000 : 2500 },
+  cal: { min: 1200, max: 4500, step: 100, un: 'kcal', fmt: v => fmt(v), sug: () => CAL_GOAL[S.user.objetivo] || 2200 }
+};
+const metaOf = k => (S.metas || {})[k] || META[k].sug();
+function waterGoal() { return metaOf('agua'); }
 function addWater(ml, tipo) {
   if (S.water.day !== dayKey()) S.water = { day: dayKey(), ml: 0, bonus: false, log: [] };
   S.water.ml += ml; const n = new Date();
@@ -1647,7 +1747,9 @@ function finishWorkout() {
 }
 
 /* ---------- Componentes ---------- */
-const tabbar = cur => `<div class="tabbar"><nav aria-label="Navegação principal">${[['home', 'home', 'Início'], ['treinos', 'dumbbell', 'Treinos'], ['progresso', 'chart', 'Progresso'], ['agua', 'cup', 'Água e calorias'], ['perfil', 'user', 'Perfil']].map(([k, i, l]) => `<button class="tab ${cur === k ? 'on' : ''}" data-a="tab" data-v="${k}" aria-label="${l}" ${cur === k ? 'aria-current="page"' : ''}>${ic(i)}</button>`).join('')}</nav></div>`;
+// A cápsula da aba ativa só anima quando a aba muda (o render redesenha a tela a cada ação).
+let tabPrev = '';
+const tabbar = (cur, lbl) => { const ent = cur !== tabPrev; tabPrev = cur; return `<div class="tabbar"><nav aria-label="Navegação principal">${[['home', 'home', 'Início', 'Início'], ['treinos', 'dumbbell', 'Treinos', 'Treinos'], ['progresso', 'chart', 'Progresso', 'Progresso'], ['agua', 'cup', 'Água e calorias', lbl || 'Água'], ['perfil', 'user', 'Perfil', 'Perfil']].map(([k, i, l, t]) => `<button class="tab${k === 'treinos' ? ' main' : ''}${cur === k ? ` on${ent ? ' ent' : ''}` : ''}" data-a="tab" data-v="${k}" aria-label="${l}" ${cur === k ? 'aria-current="page"' : ''}>${ic(i)}${cur === k ? `<span class="tl" aria-hidden="true">${t}</span>` : ''}</button>`).join('')}</nav></div>`; };
 const mascote = (size, extra = '') => `<div class="mascote-ring" style="width:${size}px;height:${size}px;${extra}"><img src="${IMG.mascote}" alt="Calipe, a capivara do Iron Capi"></div>`;
 const obTop = (step, backable = true) => `<div class="ob-top gut">${backable ? `<button class="ob-back" data-a="back" aria-label="Voltar">${ic('left')}</button>` : '<span style="width:38px"></span>'}<div class="segs" aria-label="Passo ${step} de 5">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= step ? 'on' : ''}"></i>`).join('')}</div></div>`;
 const opt = (group, value, title, sub, on) => `<button class="opt ${on ? 'on' : ''}" data-a="pick" data-g="${group}" data-v="${esc(value)}" aria-pressed="${on}"><span><b>${esc(title)}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</span><span class="radio">${on ? ic('check') : ''}</span></button>`;
@@ -1820,12 +1922,12 @@ V.home = () => {
     else cells += `<span class="cd ${k > tk ? 'future' : 'plain'}"><b>${d}</b></span>`;
   }
   const hist = [...S.history].reverse().slice(0, 6);
-  const when = h => h.day === tk ? 'Hoje' : h.day === dayKey(addDays(-1)) ? 'Ontem' : (s => s.charAt(0).toUpperCase() + s.slice(1))(WDL[new Date(h.day + 'T12:00').getDay()]);
   return `
   <div class="scroll"><div class="gut hm">
     ${appHead('Seja bem-vindo!')}
     <div class="hm-lbl">${trainedToday ? 'Próximo treino' : 'Treino de hoje'}${seqI >= 0 ? `<span class="hm-seq">${'ABCDEF'[seqI]} de ${rot.length} da sua sequência</span>` : ''}</div>
     <div class="fc"><button class="today-card" data-a="openWorkout" data-v="${wid}" aria-label="Ver treino ${W[wid].nome}">${wcard(wid)}</button><button class="go-b" data-a="start" data-v="${wid}" aria-label="Começar ${W[wid].nome} agora"></button></div>
+    ${esperaCard()}
     <div class="hm-card">
       <div class="hm-st"><div class="hm-fl">${ic('flame')}</div>
         <div><div class="row" style="gap:6px;align-items:baseline"><span class="n">${si.n}</span><span class="d">${si.n === 1 ? 'semana seguida' : 'semanas seguidas'}</span></div><div class="r">Meta: ${si.meta} treinos por semana · recorde ${si.best}</div></div>
@@ -1848,7 +1950,7 @@ V.home = () => {
     ${S.hideVoice ? '' : `<div class="hm-ban"><span class="ic">${ic('sparkles')}</span><button class="grow" style="text-align:left" data-a="soon" data-v="Registro por voz chega na próxima versão"><b>Novo: registro por voz</b><small>Fale as séries e o Capi anota pra você.</small></button><button class="hm-x" data-a="hideVoice" aria-label="Fechar aviso">${ic('x')}</button></div>`}
     <button class="hm-water" data-a="tab" data-v="agua"><span>Registre sua meta diária de água por aqui com um clique e pontue mais com os seus amigos!</span><img src="${IMG.capiTerere}" alt=""></button>
     <div class="hm-lt"><b>Últimos treinos</b><button data-a="openHist">Ver todos</button></div>
-    ${hist.length ? `<div class="hm-car">${hist.map((h, k) => `<button class="hm-tc" data-a="openH" data-v="${S.history.length - 1 - k}" aria-label="Ver ${esc(h.nome)} de ${when(h)}"><small>${when(h)}</small><b>${esc(h.nome)}</b><span>${ic('clock')} ${h.dur} min · ${fmt(h.vol)} kg</span></button>`).join('')}</div>` : `<div class="empty">Nenhum treino ainda. Comece pelo treino de hoje.</div>`}
+    ${hist.length ? `<div class="hl">${hist.slice(0, 3).map((h, k) => hRow(h, S.history.length - 1 - k)).join('')}</div>` : `<div class="empty">Nenhum treino ainda. Comece pelo treino de hoje.</div>`}
   </div></div>
   ${tabbar('home')}`;
 };
@@ -1872,9 +1974,12 @@ function syncW() {
   Object.entries(BASE_EX).forEach(([k, ex]) => { if (W[k].ex) W[k].ex = ex.concat((S.extraEx || {})[k] || []); });
   Object.assign(W, S.myW || {});
 }
+// Tom de cada categoria: as que equivalem a um tipo de treino usam a cor dele.
+const CATTOM = { fav: 'fav', hiper: 'azul', forca: 'verde', mob: 'verde', cardio: 'amarelo' };
 const TAGCAT = { Hipertrofia: 'hiper', 'Força': 'forca', Cardio: 'cardio', Funcional: 'full', Mobilidade: 'mob' };
 const catsOf = k => WCAT[k] || [TAGCAT[W[k].tag]].filter(Boolean);
 const isFav = k => (S.favs || []).includes(k);
+const ORDEM = ['fullbody', 'upperlower', 'funcional', 'peito', 'pernas', 'dupla', 'costas', 'mobilidade', 'corrida'];
 const favBtn = k => `<button class="fav-b ${isFav(k) ? 'on' : ''}" data-a="fav" data-v="${k}" aria-pressed="${isFav(k)}" aria-label="${isFav(k) ? 'Tirar dos favoritos' : 'Favoritar'} ${esc(W[k].nome)}"><i>${ic('heart')}</i></button>`;
 const ficha = k => { const w = W[k]; return `<div class="fc"><button class="ficha" data-a="${w.soon ? 'soon' : 'openWorkout'}" data-v="${w.soon ? 'Treinos de corrida chegam na próxima versão' : k}" aria-label="${w.soon ? `${w.nome}, em breve` : `Abrir treino ${esc(w.nome)}`}">${wcard(k)}${w.soon ? '<span class="chip solid soon">Em breve</span>' : ''}</button>${w.soon ? '' : `<button class="go-b" data-a="start" data-v="${k}" aria-label="Começar ${esc(w.nome)} agora"></button>${favBtn(k)}`}</div>`; };
 // Biblioteca: todos os exercícios das fichas, as variações e os criados pelo usuário.
@@ -1905,15 +2010,15 @@ function libAddTo(e) {
 
 V.treinos = () => {
   const rec = todaysWorkout(); const cat = CATS.find(c => c[0] === S.cat); const mine = Object.keys(S.myW || {}); const favs = (S.favs || []).filter(k => W[k]);
-  const list = Object.keys(W).filter(k => cat ? (cat[0] === 'fav' ? isFav(k) : catsOf(k).includes(cat[0])) : k !== rec && !k.startsWith('my_'));
+  const list = [...ORDEM, ...Object.keys(W).filter(k => !ORDEM.includes(k))].filter(k => W[k]).filter(k => cat ? (cat[0] === 'fav' ? isFav(k) : catsOf(k).includes(cat[0])) : k !== rec && !k.startsWith('my_'));
   return `
   <div class="scroll"><div class="gut tr">
     ${appHead('Seja bem-vindo!')}
     <button class="tr-new" data-a="newWorkout"><span class="pl"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M18.74 12.86h-6v6.05h-1.71v-6.05h-6v-1.72h6V5.09h1.71v6.05h6Z" fill="#fff"/></svg></span>Criar um treino novo</button>
-    ${favs.length && !cat ? `<div class="tr-lt"><h2 class="tr-h">Seus favoritos</h2><button data-a="cat" data-v="fav">Ver todos</button></div><div class="fv-car">${favs.map(k => { const w = W[k]; return `<button class="fv" data-a="openWorkout" data-v="${k}" style="--c:${w.cor ? w.cor[0] : '#343B9D'}"><i></i><b>${esc(w.nome)}</b><small>${w.nivel} · ${w.tempo}</small><span>${ic('heart')}</span></button>`; }).join('')}</div>` : ''}
+    ${favs.length && !cat ? `<div class="tr-lt"><h2 class="tr-h">Seus favoritos</h2><button data-a="cat" data-v="fav">Ver todos</button></div><div class="fv-car">${favs.map(k => { const w = W[k]; return `<button class="fv" data-a="openWorkout" data-v="${k}" style="--c:${corOf(w).bg}"><i></i><b>${esc(w.nome)}</b><small>${w.nivel} · ${w.tempo}</small><span>${ic('heart')}</span></button>`; }).join('')}</div>` : ''}
     ${!cat ? `<h2 class="tr-h">O Calipe recomenda hoje</h2>${ficha(rec)}` : ''}
     <h2 class="tr-h">Categorias de treino</h2>
-    <div class="tr-cats" role="group" aria-label="Filtrar treinos por categoria">${CATS.map(([k, l, , svg]) => `<button class="tr-cat ${cat && cat[0] === k ? 'on' : ''}" data-a="cat" data-v="${k}" aria-pressed="${!!cat && cat[0] === k}"><span class="b">${svg}</span>${l}</button>`).join('')}</div>
+    <div class="tr-cats" role="group" aria-label="Filtrar treinos por categoria">${CATS.map(([k, l, , svg]) => `<button class="tr-cat ${cat && cat[0] === k ? 'on' : ''}" data-a="cat" data-v="${k}" aria-pressed="${!!cat && cat[0] === k}"><span class="b ${CATTOM[k] || ''}">${svg}</span>${l}</button>`).join('')}</div>
     ${mine.length && !cat ? `<h2 class="tr-h">Criados por você</h2><div class="tr-list">${mine.map(ficha).join('')}</div>` : ''}
     <div class="tr-lt"><h2 class="tr-h">${cat ? cat[2] : 'Treinos mais recomendados'}</h2>${cat ? '<button data-a="cat" data-v="">Ver todos</button>' : ''}</div>
     <div class="tr-list">${list.length ? list.map(ficha).join('') : `<div class="empty">${cat && cat[0] === 'fav' ? 'Toque no coração de um treino para guardar aqui.' : 'Nenhum treino nesta categoria ainda.'}</div>`}</div>
@@ -1922,7 +2027,7 @@ V.treinos = () => {
 };
 
 // Criar treino: nome, tipo, capa e exercícios.
-const COVERS = [['#5A5EE6', '#2C2E91'], ['#2E63D6', '#123E9C'], ['#349D73', '#1F6B4C'], ['#E07A5F', '#A9472F'], ['#0B0D72', '#343B9D'], ['#E3A92B', '#8A5A00']];
+const COVERS = Object.keys(CORES);
 const PHOTOS = ['hero', 'fotoPerfil', 'fotoDuplaF', 'fotoDuplaM', 'capiTerere'];
 const draftW = () => { const d = S.draft; return { nome: d.nome || 'Meu treino', tag: d.tag, foto: d.foto, cor: d.cor, nivel: S.user.nivel, tempo: `${Math.max(15, Math.round(d.ex.reduce((a, e) => a + e.s * (e.rest + 45), 0) / 60 / 5) * 5)} min`, ex: d.ex }; };
 V.criar = () => { const d = S.draft; if (!d) return V.treinos(); const ok = d.nome.trim() && d.ex.length; W.__draft = draftW(); return `
@@ -1934,7 +2039,7 @@ V.criar = () => { const d = S.draft; if (!d) return V.treinos(); const ok = d.no
     <span class="label">Tipo</span>
     <div class="pills">${Object.keys(TAGCAT).map(t => `<button class="pill ${d.tag === t ? 'on' : ''}" data-a="drTag" data-v="${t}" aria-pressed="${d.tag === t}">${t}</button>`).join('')}</div>
     <span class="label">Capa</span>
-    <div class="cr-cov">${COVERS.map((c, i) => `<button class="sw-c ${d.cor[0] === c[0] ? 'on' : ''}" style="--c:${c[0]}" data-a="drCor" data-v="${i}" aria-label="Cor ${i + 1}" aria-pressed="${d.cor[0] === c[0]}"></button>`).join('')}</div>
+    <div class="cr-cov">${COVERS.map((c, i) => `<button class="sw-c ${corKey(d) === c ? 'on' : ''}" style="--c:${CORES[c].bg}" data-a="drCor" data-v="${i}" aria-label="${CORES[c].nome}" aria-pressed="${corKey(d) === c}"></button>`).join('')}</div>
     <div class="cr-ph">${PHOTOS.map(p => `<button class="${d.foto === p ? 'on' : ''}" data-a="drFoto" data-v="${p}" aria-label="Foto de capa" aria-pressed="${d.foto === p}"><img src="${IMG[p]}" alt=""></button>`).join('')}</div>
     <div class="row between" style="margin-top:6px"><span class="label">Exercícios · ${d.ex.length}</span><button class="linkbtn" data-a="exLib" data-v="draft">${ic('plus')} Adicionar</button></div>
     ${d.ex.length ? d.ex.map((e, i) => `<div class="cr-ex"><span class="grow"><b>${esc(e.nome)}</b><small>${e.musc.join(' · ')} · descanso ${restLbl(e.rest)}</small></span>
@@ -1945,9 +2050,9 @@ V.criar = () => { const d = S.draft; if (!d) return V.treinos(); const ok = d.no
   <div class="footer gut"><button class="btn primary" data-a="drSave" ${ok ? '' : 'disabled'}>${ic('check')} Salvar treino</button></div>`; };
 
 // Detalhe do treino no estilo "V3 · Hero imersivo" (Figma 654:5807).
-V.detalhe = ({ id }) => { const w = W[id]; const g = w.cor ? [w.cor[0], w.cor[1], w.cor[1]] : ['#7D80FE', '#343B9D', '#0B0D72']; return `
+V.detalhe = ({ id }) => { const w = W[id]; const c = corOf(w); const g = c.hero; return `
   <div class="scroll dt">
-    <div class="dt-hero" style="--g1:${g[0]};--g2:${g[1]};--g3:${g[2]}">
+    <div class="dt-hero${c.lt ? ' lt' : ''}" style="--g1:${g[0]};--g2:${g[1]};--g3:${g[2]}">
       <span class="dt-glow"></span><img class="dt-ph" src="${IMG[w.heroImg || w.foto || 'hero']}" alt=""><span class="dt-fade"></span>
       <div class="dt-bar gut"><button class="dt-btn" data-a="back" aria-label="Voltar">${ic('left')}</button><button class="dt-btn ${isFav(id) ? 'fav-on' : ''}" data-a="fav" data-v="${id}" aria-pressed="${isFav(id)}" aria-label="${isFav(id) ? 'Tirar dos favoritos' : 'Favoritar treino'}">${ic('heart')}</button></div>
       <div class="dt-info gut">
@@ -2199,6 +2304,11 @@ const muscOf = h => h.mus || NOME_MUSC[h.nome] || (w => w ? muscFromList(w.ex) :
 const tf = v => v >= 1000 ? `${(v / 1000).toFixed(1).replace('.', ',')} t` : `${fmt(v)} kg`;
 const hm = m => m >= 60 ? `${Math.floor(m / 60)}h ${String(m % 60).padStart(2, '0')}` : `${m} min`;
 const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+// Linha do histórico: o ponto mostra a cor do treino (azul, verde ou amarelo).
+const MES3 = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+const hDia = h => { if (h.day === dayKey()) return 'Hoje'; if (h.day === dayKey(addDays(-1))) return 'Ontem'; const d = new Date(h.day + 'T12:00'); return `${cap(WDL[d.getDay()])}, ${d.getDate()} ${MES3[d.getMonth()]}`; };
+const hRow = (h, i) => { const [vv, vu] = h.vol >= 1000 ? [(h.vol / 1000).toFixed(1).replace('.', ','), 't'] : [fmt(h.vol), 'kg']; const np = (h.prs || []).length;
+  return `<button class="hl-r" data-a="openH" data-v="${i}" aria-label="${esc(h.nome)}, ${hDia(h)}: ${h.dur} minutos, ${vv} ${vu === 't' ? 'toneladas' : 'quilos'}${np ? `, ${np} ${np === 1 ? 'recorde' : 'recordes'}` : ''}"><span class="grow"><b><i style="--c:${corOf(W[h.wid] || h).bg}"></i>${esc(h.nome)}</b><small>${hDia(h)}<span class="ser"> · ${h.series} séries</span>${np ? ` · <span class="hs-pr">${ic('trophy')} ${np}</span>` : ''}${h.edit ? ' · editado' : ''}</small></span><span class="hl-m"><small>Tempo</small><b class="tnum">${h.dur}<i>min</i></b></span><span class="hl-m"><small>Volume</small><b class="tnum">${vv}<i>${vu}</i></b></span></button>`; };
 const mondayOf = d => addDays(-((d.getDay() + 6) % 7), d);
 function periodRange(p, back) {
   const t = addDays(0); let s, e = t;
@@ -2242,7 +2352,7 @@ V.progresso = () => {
   return `
   <div class="scroll"><div class="gut pg">
     ${appHead('Veja seu progresso!')}
-    <div class="pg-seg" role="tablist" aria-label="Período">${[['semana', 'Semana'], ['mes', 'Mês'], ['ano', 'Ano']].map(([k, l]) => `<button role="tab" aria-selected="${p === k}" class="${p === k ? 'on' : ''}" data-a="period" data-v="${k}">${l}</button>`).join('')}</div>
+    <div class="pg-seg" role="tablist" aria-label="Período" data-pane=".pg > .pg-seg ~ *">${[['semana', 'Semana'], ['mes', 'Mês'], ['ano', 'Ano']].map(([k, l]) => `<button role="tab" aria-selected="${p === k}" class="${p === k ? 'on' : ''}" data-a="period" data-v="${k}">${l}</button>`).join('')}</div>
     <div class="pg-lvl">
       <div class="row" style="gap:14px"><div class="hm-av"><div class="c"><img src="${IMG.avatar}" alt=""></div></div><div><div class="k">NÍVEL ${S.level} · ${stageOf(S.level).toUpperCase()}</div><div class="v tnum">${fmt(S.xp)} / ${fmt(need(S.level))} XP</div></div></div>
       <div class="pg-xb" role="progressbar" aria-label="XP do nível" aria-valuenow="${Math.round(xpP)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${xpP}%"></i></div>
@@ -2271,13 +2381,13 @@ const MEALS = [['cafe', 'Café da manhã', 'coffee'], ['almoco', 'Almoço', 'ute
 const FOODS = [['paoovo', 'Pão com ovo', 250], ['arroz', 'Arroz e feijão', 350], ['frango', 'Frango grelhado', 220], ['sopa', 'Sopa paraguaia', 280], ['chipa', 'Chipa (3 un.)', 180], ['fruta', 'Fruta', 80], ['salada', 'Salada', 60], ['acai', 'Açaí 300 ml', 420]];
 // Metas estimadas por objetivo, só para o protótipo (não é prescrição nutricional).
 const CAL_GOAL = { Emagrecer: 1800, 'Ganhar massa': 2600, 'Saúde geral': 2200, 'Resistência': 2400 };
-const calGoal = () => CAL_GOAL[S.user.objetivo] || 2200;
+const calGoal = () => metaOf('cal');
 const mealNow = () => { const h = new Date().getHours(); return h < 10 ? 'cafe' : h < 15 ? 'almoco' : h < 18 ? 'lanche' : 'jantar'; };
 function foodToday() { if (!S.food || S.food.day !== dayKey()) S.food = { day: dayKey(), log: [], bonus: false }; return S.food; }
 const fTotal = () => { const q = S.fq || {}; return FOODS.reduce((a, [k, , kc]) => a + (q[k] || 0) * kc, 0) + (q.custom || 0); };
 const fSum = () => { const t = fTotal(); return t ? `Total: <b class="tnum">+${fmt(t)} kcal</b><button data-a="fclear">Limpar</button>` : 'Toque no + para escolher'; };
 
-const aguaTabs = mode => `<div class="pg-seg ag-seg" role="tablist" aria-label="O que registrar">${[['agua', 'drop', 'Água'], ['cal', 'flame', 'Calorias']].map(([k, i, l]) => `<button role="tab" aria-selected="${mode === k}" class="${mode === k ? 'on' : ''}" data-a="aguaMode" data-v="${k}">${ic(i)} ${l}</button>`).join('')}</div>`;
+const aguaTabs = mode => `<div class="pg-seg ag-seg" role="tablist" aria-label="O que registrar" data-pane=".ag-mid, .ag-card, .ag-btn, .cal-disc">${[['agua', 'drop', 'Água'], ['cal', 'flame', 'Calorias']].map(([k, i, l]) => `<button role="tab" aria-selected="${mode === k}" class="${mode === k ? 'on' : ''}" data-a="aguaMode" data-v="${k}">${ic(i)} ${l}</button>`).join('')}</div>`;
 V.agua = () => S.aguaMode === 'cal' ? calView() : aguaView();
 // Animação: ao abrir a tela a garrafa enche do fundo; ao registrar, o nível sobe do valor anterior e cai uma gota.
 let agFx = null, agAdd = 0;
@@ -2300,8 +2410,8 @@ function aguaView() {
     </div>
     <div class="ag-bot">${SVG.waves}
       <div class="ag-card">
-        <div class="ag-ct">Progresso de hoje</div>
-        <div class="ag-amt tnum"><b data-cnt="${ml}" data-from="${pv.ml}" data-fmt="L">${L(ml)} L</b><span> / ${L(goal)} L</span></div>
+        <div class="ag-ct ag-cth">Progresso de hoje<button class="ag-meta" data-a="editMeta" data-v="agua">${ic('edit')} Alterar meta</button></div>
+        <div class="ag-amt tnum"><b data-cnt="${ml}" data-from="${pv.ml}" data-fmt="L">${L(ml)} L</b><span> / ${META.agua.fmt(goal)} L</span></div>
         <div class="ag-barrow"><div class="ag-bar"><i style="width:${pct}%;--from:${pv.pct}%"></i></div><b class="tnum" data-cnt="${pct}" data-from="${pv.pct}" data-fmt="%">${pct}%</b></div>
         ${S.water.bonus && S.water.day === dayKey() ? `<div class="ag-bonus">${ic('check')} Meta batida · +${XP.agua} XP</div>` : ''}
         ${last ? `<div class="ag-last">Último: +${last.ml} ml de ${esc(last.tipo.toLowerCase())} · <button data-a="undoWater">Desfazer</button></div>` : ''}
@@ -2309,7 +2419,7 @@ function aguaView() {
       <button class="ag-btn" data-a="openAddWater">Registre a água</button>
     </div>
   </div>
-  ${tabbar('agua').replace('class="tabbar"', 'class="tabbar blue"')}`;
+  ${tabbar('agua', 'Água').replace('class="tabbar"', 'class="tabbar blue"')}`;
 }
 function calView() {
   const f = foodToday(); const goal = calGoal(); const eat = f.log.reduce((a, x) => a + x.kcal, 0);
@@ -2330,16 +2440,17 @@ function calView() {
     </div>
     <div class="ag-bot">${SVG.wavesCal}
       <div class="ag-card">
+        <div class="ag-ct ag-cth cal-goal"><span>Meta: <b class="tnum">${fmt(goal)} kcal</b></span><button class="ag-meta" data-a="editMeta" data-v="cal">${ic('edit')} Alterar meta</button></div>
         <div class="cal-sum"><div><b class="tnum">${fmt(eat)}</b><small>consumidas</small></div><div><b class="tnum">${fmt(burn)}</b><small>gastas no treino</small></div><div><b class="tnum ${left < 0 ? 'neg' : ''}">${fmt(Math.abs(left))}</b><small>${left < 0 ? 'acima da meta' : 'restantes'}</small></div></div>
         <div class="cal-meals">${MEALS.map(([k, l, i]) => { const it = f.log.filter(x => x.meal === k); const kc = it.reduce((a, x) => a + x.kcal, 0); return `<button data-a="openAddFood" data-v="${k}" aria-label="Adicionar ao ${l}"><span class="mi">${ic(i)}</span><span class="grow"><b>${l}</b><small>${it.length ? esc([...new Set(it.map(x => x.nome))].join(', ')) : 'Nada registrado'}</small></span><span class="kc tnum">${kc ? `${fmt(kc)} kcal` : ''}</span><span class="pl">${ic('plus')}</span></button>`; }).join('')}</div>
         ${f.bonus ? `<div class="ag-bonus">${ic('check')} 3 refeições registradas · +${XP.refeicao} XP</div>` : ''}
         ${last ? `<div class="ag-last">Último: ${esc(last.nome)} (+${fmt(last.kcal)} kcal) · <button data-a="undoFood">Desfazer</button></div>` : ''}
       </div>
       <button class="ag-btn" data-a="openAddFood">Registre uma refeição</button>
-      <p class="cal-disc">Meta estimada pelo seu objetivo. Para um plano alimentar, procure um nutricionista.</p>
+      <p class="cal-disc">A meta é sua e dá para mudar quando quiser. Para um plano alimentar, procure um nutricionista.</p>
     </div>
   </div>
-  ${tabbar('agua').replace('class="tabbar"', 'class="tabbar warm"')}`;
+  ${tabbar('agua', 'Calorias').replace('class="tabbar"', 'class="tabbar warm"')}`;
 }
 const WOPTS = [['250', 'glass250', '250 ml', 250, 'Copo'], ['300', 'terere', '300 ml', 300, 'Tereré'], ['500', 'glass500', '500 ml', 500, 'Copo grande'], ['1000', 'bottle1000', '1000 ml', 1000, 'Garrafa'], ['custom', 'custom', 'valor personali&shy;zado', 0, 'Água']];
 const wTotal = () => { const q = S.wq || {}; return WOPTS.reduce((a, o) => a + (o[0] === 'custom' ? (q.custom || 0) : (q[o[0]] || 0) * o[3]), 0); };
@@ -2389,10 +2500,10 @@ M.delW = d => `<div class="overlay"><div class="sheet wk-fs" role="dialog" aria-
   <button class="btn primary wk-red" data-a="delWorkoutOk" data-v="${d.id}">Excluir treino</button><button class="btn second" data-a="closeModal">Cancelar</button></div></div>`;
 /* ---------- Cabeçalho, notificações e menu ---------- */
 // Cartão de treino no estilo dos cards do Figma; os quatro originais continuam como imagem.
-const wcard = k => { const w = W[k]; if (w.img) return `<img src="${IMG[w.img]}" alt="">`; return `<span class="wc" style="--bg:${w.cor[0]};--bt:${w.cor[1]}">
+const wcard = k => { const w = W[k]; if (w.img) return `<img src="${IMG[w.img]}" alt="">`; const c = corOf(w); return `<span class="wc${c.lt ? ' lt' : ''}" style="--bg:${c.bg};--bt:${c.bt}">
     <span class="wc-gl"></span><img class="wc-ph" src="${IMG[w.foto]}" alt="">
     <span class="wc-tag">${w.tag}</span>
-    <span class="wc-tx"><b>${w.nome}</b><span>${ic('flame')} ${w.nivel}<i></i>${ic('clock')} ${w.tempo}</span></span>
+    <span class="wc-tx"><b${w.nome.length > 14 ? ' class="lg"' : ''}>${w.nome}</b><span>${ic('flame')} ${w.nivel}<i></i>${ic('clock')} ${w.tempo}</span></span>
     <span class="wc-go">Começar</span></span>`; };
 const ROT = { 'Ganhar massa': ['fullbody', 'peito', 'costas', 'pernas'], Emagrecer: ['funcional', 'dupla', 'fullbody'], 'Resistência': ['funcional', 'dupla', 'pernas'], 'Saúde geral': ['fullbody', 'funcional', 'mobilidade'] };
 // Recomendação do dia: gira as fichas do objetivo, uma por dia.
@@ -2444,7 +2555,7 @@ function buildNotifs() {
   if (nf.streak && si.left > 0) out.push({ id: `streak-${tk}`, ic: 'flame', cor: 'orange', t: si.left > si.avail ? 'Semana apertada: seu escudo segura a chama' : `Faltam ${si.left} ${si.left === 1 ? 'treino' : 'treinos'} para bater a meta da semana`, x: si.n ? `Você está em ${si.n} ${si.n === 1 ? 'semana seguida' : 'semanas seguidas'}. A semana fecha no domingo.` : `Bata ${si.meta} treinos até domingo para acender a chama.`, q: 'Agora', go: 'treinos' });
   if (nf.treino && !trained) out.push({ id: `treino-${tk}`, ic: 'dumbbell', cor: 'navy', t: `Treino de hoje: ${W[todaysWorkout()].nome}`, x: `O Calipe separou ${W[todaysWorkout()].ex.length} exercícios para você.`, q: '08:00', go: 'treinos' });
   const w = S.water.day === tk ? S.water.ml : 0;
-  if (w < waterGoal()) out.push({ id: `agua-${tk}`, ic: 'drop', cor: 'blue', t: 'Hora de um gole d’água', x: `Você está em ${(w / 1000).toFixed(1).replace('.', ',')} L de 2,5 L hoje. Bater a meta vale +${XP.agua} XP.`, q: '10:30', go: 'agua' });
+  if (w < waterGoal()) out.push({ id: `agua-${tk}`, ic: 'drop', cor: 'blue', t: 'Hora de um gole d’água', x: `Você está em ${(w / 1000).toFixed(1).replace('.', ',')} L de ${META.agua.fmt(waterGoal())} L hoje. Bater a meta vale +${XP.agua} XP.`, q: '10:30', go: 'agua' });
   const recs = recordsList().filter(r => r.day && diffDays(tk, r.day) <= 7);
   if (recs.length) out.push({ id: `rec-${recs[0].day}-${recs[0].nome}`, ic: 'trophy', cor: 'gold', t: `Novo recorde: ${recs[0].nome}`, x: `${kgf(recs[0].kg)} kg × ${recs[0].reps}. Sobrecarga progressiva em ação!`, q: recs[0].day === tk ? 'Hoje' : cap(dLabel(new Date(recs[0].day + 'T12:00'))), go: 'progresso', week: recs[0].day !== tk });
   out.push({ id: `nivel-${S.level}`, ic: 'zap', cor: 'lav', t: `Faltam ${fmt(need(S.level) - S.xp)} XP para o nível ${S.level + 1}`, x: 'Cada série vale +10 XP e cada treino finalizado, +100.', q: 'Ontem', go: 'progresso', week: true });
@@ -2579,6 +2690,64 @@ M.plano = () => { const u = S.user; const grp = (g, label, opts) => `<div class=
   <button class="btn primary" data-a="closeModal">Pronto</button>
 </div></div>`; };
 
+const MT_TXT = {
+  agua: { first: ['Oi! Antes de registrar, vamos definir sua meta de água?', 'Assim eu acompanho o seu dia e aviso quando faltar pouco.'], edit: ['Qual é a sua meta de água por dia?', 'Você pode mudar quando quiser.'],
+    why: () => 'Referência para adultos: cerca de 2 L por dia para mulheres e 2,5 L para homens, um pouco mais nos dias de treino.' },
+  cal: { first: ['Agora a meta de calorias! Quanto você quer comer por dia?', 'Eu uso a meta para mostrar quanto falta no dia.'], edit: ['Qual é a sua meta de calorias por dia?', 'Você pode mudar quando quiser.'],
+    why: () => `Sugestão pelo seu objetivo (${S.user.objetivo.toLowerCase()}). É uma estimativa: para um plano alimentar, procure um nutricionista.` }
+};
+const mtVal = d => `${META[d.k].fmt(d.v)}<small>${META[d.k].un}</small>`;
+const mtSug = d => { const sg = META[d.k].sug(); return d.v === sg ? `<span class="ok">${ic('sparkles')} Sugestão do Calipe</span>` : `Sugestão do Calipe: ${META[d.k].fmt(sg)} ${META[d.k].un} · <button data-a="metaSug">usar</button>`; };
+M.meta = d => { const t = MT_TXT[d.k]; const [t1, t2] = d.first ? t.first : t.edit; return `<div class="overlay center"><div class="modal mt ${d.k}" role="dialog" aria-modal="true" aria-labelledby="mt-t" aria-describedby="mt-w">
+  ${d.first ? '' : `<button class="aw-x mt-x" data-a="closeModal" aria-label="Fechar">${ic('x')}</button>`}
+  <div class="mt-hd">${d.k === 'agua' ? `<img class="mt-cap" src="${IMG.capiTerere}" alt="Calipe">` : mascote(78)}<div class="mt-bub"><b id="mt-t">${t1}</b><span>${t2}</span></div></div>
+  <div class="mt-val"><button class="mt-pm" data-a="metaAdj" data-v="-1" aria-label="Diminuir a meta" ${d.v <= META[d.k].min ? 'disabled' : ''}>${ic('minus')}</button><output id="mt-v" class="tnum" aria-live="polite">${mtVal(d)}</output><button class="mt-pm" data-a="metaAdj" data-v="1" aria-label="Aumentar a meta" ${d.v >= META[d.k].max ? 'disabled' : ''}>${ic('plus')}</button></div>
+  <div class="mt-sug" id="mt-sug">${mtSug(d)}</div>
+  <p class="mt-why" id="mt-w">${t.why()}</p>
+  <button class="btn primary" data-a="metaSave">${d.first ? 'Salvar e começar' : 'Salvar meta'}</button>
+  ${d.first ? '' : '<button class="btn second" data-a="closeModal">Cancelar</button>'}
+</div></div>`; };
+// Ajuste da meta sem redesenhar a modal (evita a animação de abertura a cada toque).
+function paintMeta() { const d = S.modal.data, m = META[d.k]; const v = document.getElementById('mt-v'); if (!v) return render(); v.innerHTML = mtVal(d); document.getElementById('mt-sug').innerHTML = mtSug(d); const [a, b] = app.querySelectorAll('.mt-pm'); a.disabled = d.v <= m.min; b.disabled = d.v >= m.max; save(); }
+// Lista de espera do app de verdade. Grava no Firestore só na cópia publicada (docs/firebase-config.js
+// com o projeto); sem configuração a modal avisa que é demonstração e nada sai do aparelho.
+const ESP_RE = /^[a-z0-9._%+-]+@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/;
+const espCfg = () => window.IRON_FIREBASE || null;
+// No aparelho fica só o e-mail mascarado: o celular do teste passa de mão em mão.
+const espMask = e => { const [u, d] = e.split('@'); return `${u.slice(0, 2)}${'•'.repeat(Math.max(1, Math.min(4, u.length - 2)))}@${d}`; };
+async function espSalvar(email) {
+  const cfg = espCfg(); if (!cfg) return;
+  const F = await import(new URL('vendor/firebase.js', document.baseURI).href);
+  const { db } = F.conectar(cfg);
+  const h = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(email)));
+  const id = [...h].map(b => b.toString(16).padStart(2, '0')).join('');
+  try { await F.setDoc(F.doc(db, 'lista_espera', id), { email, consentimento: true, origem: 'prototipo', criadoEm: F.serverTimestamp() }); }
+  catch (e) {
+    // As regras recusam gravar por cima de uma inscrição: o e-mail já estava na lista.
+    if (e && e.code === 'permission-denied') { console.warn('Lista de espera: gravação recusada (e-mail já inscrito ou configuração incompleta).'); return; }
+    throw e;
+  }
+}
+const esperaCard = () => S.esperaOculta ? '' : S.espera
+  ? `<div class="esp ok" role="status"><span class="tk">${ic('check')}</span><span class="grow"><b>Você está na lista!</b><small>Avisamos em ${esc(S.espera.email)} quando o app estiver pronto para testar.</small></span><button class="hm-x" data-a="espOcultar" aria-label="Fechar aviso">${ic('x')}</button></div>`
+  : `<button class="esp" data-a="espAbrir">${mascote(52)}<span class="grow"><b>Quer testar o app de verdade?</b><small>Deixe seu e-mail que o Calipe avisa quando estiver pronto.</small></span><span class="esp-go">Quero testar</span></button>`;
+M.espera = () => `<div class="overlay"><div class="sheet esp-s" role="dialog" aria-modal="true" aria-labelledby="esp-t">
+  <div class="row between"><div class="pg-st" id="esp-t">Lista de espera</div><button class="aw-x" data-a="closeModal" aria-label="Fechar">${ic('x')}</button></div>
+  <div class="esp-hd">${mascote(60)}<p>Quando o Iron Capi estiver pronto para teste, mandamos um convite para o seu e-mail. Só isso, sem propaganda.</p></div>
+  <label class="label" for="esp-mail">Seu e-mail</label>
+  <input id="esp-mail" class="field" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="254" placeholder="voce@email.com">
+  <label class="esp-ck"><input type="checkbox" id="esp-ok"><span>Aceito receber e-mails do time Iron Capi (UFMS) sobre o teste do app. Posso pedir para sair da lista quando quiser.</span></label>
+  <div class="esp-err" id="esp-err" role="alert"></div>
+  ${espCfg() ? '' : '<p class="esp-demo">Demonstração: nesta versão do protótipo o e-mail não é enviado para lugar nenhum.</p>'}
+  <button class="btn primary" id="esp-btn" data-a="espEnviar">Entrar na lista</button>
+</div></div>`;
+M.esperaOk = d => `<div class="overlay center"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="eo-t">
+  ${mascote(120, 'margin:4px 0')}
+  <div id="eo-t" style="font-weight:800;font-size:22px;color:var(--marinho)">${d.demo ? 'Era só uma demonstração' : 'Prontinho, você está na lista!'}</div>
+  <p class="p">${d.demo ? 'Na versão publicada, o seu e-mail entraria na lista de espera do Iron Capi.' : `Quando o app estiver pronto para testar, o convite chega em <b style="color:var(--marinho)">${esc(d.email)}</b>.`}</p>
+  <button class="btn primary" data-a="closeModal">Voltar ao protótipo</button>
+  ${d.demo ? '' : '<p class="esp-fim">Quer sair da lista? É só responder o e-mail do convite pedindo.</p>'}
+</div></div>`;
 M.addWater = () => { const q = S.wq || {}; return `<div class="overlay center"><div class="aw" role="dialog" aria-modal="true" aria-labelledby="aw-t">
   <div class="row between" style="align-items:flex-start"><div class="aw-t" id="aw-t">Adicionar ingestão de água.</div><button class="aw-x" data-a="closeAddWater" aria-label="Fechar">${ic('x')}</button></div>
   <div class="aw-grid">${WOPTS.map(([k, svg, lbl, , tipo]) => { const n = k === 'custom' ? 0 : q[k] || 0; return `<div class="aw-col"><div class="aw-ic">${SVG[svg]}${n ? `<span class="aw-n tnum">${n}×</span>` : ''}</div><div class="aw-l">${lbl}</div><button class="aw-add" data-a="wplus" data-v="${k}" aria-label="Adicionar ${k === 'custom' ? 'valor personalizado' : `${lbl} (${tipo.toLowerCase()})`}">${SVG.add}</button></div>`; }).join('')}</div>
@@ -2796,9 +2965,9 @@ function recWarn(w) {
 }
 
 /* ---------- Histórico: ver, corrigir e apagar ---------- */
-V.hist = () => { const hs = S.history.map((h, i) => ({ h, i })).reverse(); let mk = ''; return `
+V.hist = () => { const hs = S.history.map((h, i) => ({ h, i })).reverse(); const gs = []; hs.forEach(x => { const m = x.h.day.slice(0, 7); if (!gs.length || gs[gs.length - 1].m !== m) gs.push({ m, xs: [] }); gs[gs.length - 1].xs.push(x); }); return `
   <div class="gut hs-top"><button class="ob-back" data-a="back" aria-label="Voltar">${ic('left')}</button><div class="grow"><b>Histórico de treinos</b><small>${hs.length} ${hs.length === 1 ? 'treino' : 'treinos'} · toque para ver, corrigir ou apagar</small></div></div>
-  <div class="scroll"><div class="gut hs">${hs.length ? hs.map(({ h, i }) => { const m = h.day.slice(0, 7); const head = m !== mk ? `<div class="hs-m">${MESES[+m.slice(5) - 1]} ${m.slice(0, 4)}</div>` : ''; mk = m; return `${head}<button class="hs-r" data-a="openH" data-v="${i}"><span class="hs-d"><b>${+h.day.slice(8)}</b><small>${WDL[new Date(h.day + 'T12:00').getDay()]}</small></span><span class="grow"><b>${esc(h.nome)}</b><small>${h.dur} min · ${h.series} séries · ${tf(h.vol)}${(h.prs || []).length ? ` · <span class="hs-pr">${ic('trophy')} ${h.prs.length}</span>` : ''}${h.edit ? ' · editado' : ''}</small></span>${ic('right')}</button>`; }).join('') : '<div class="empty">Nenhum treino registrado ainda.</div>'}</div></div>
+  <div class="scroll"><div class="gut hs">${gs.length ? gs.map(g => `<div class="hs-m">${MESES[+g.m.slice(5) - 1]} ${g.m.slice(0, 4)}</div><div class="hl">${g.xs.map(({ h, i }) => hRow(h, i)).join('')}</div>`).join('') : '<div class="empty">Nenhum treino registrado ainda.</div>'}</div></div>
   ${tabbar('progresso')}`; };
 V.histDet = ({ i }) => {
   const h = S.history[i]; if (!h) return V.hist(); const ed = S.hedit && S.hedit.i === i ? S.hedit : null; const ex = ed ? ed.ex : h.ex;
@@ -2854,6 +3023,7 @@ function kpKey(k) {
 }
 
 // Depois de desenhar a tela: números que contam até o valor novo e pausa das demonstrações.
+const segPrev = {};
 function afterRender() {
   const rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
   app.querySelectorAll('[data-cnt]').forEach(el => {
@@ -2862,6 +3032,15 @@ function afterRender() {
     const t0 = performance.now(); el.textContent = out(from);
     const step = now => { const k = Math.min(1, (now - t0) / 1000); el.textContent = out(from + (to - from) * (1 - Math.pow(1 - k, 3))); if (k < 1 && el.isConnected) requestAnimationFrame(step); };
     requestAnimationFrame(step);
+  });
+  // Seletores segmentados: o fundo desliza da opção anterior para a nova e o conteúdo entra pelo lado escolhido.
+  app.querySelectorAll('.pg-seg').forEach(sg => {
+    const bs = [...sg.children]; const i = bs.findIndex(b => b.classList.contains('on')); if (i < 0) return;
+    const id = S.screen + ':' + sg.getAttribute('aria-label'); const p = segPrev[id]; segPrev[id] = i;
+    sg.style.setProperty('--n', bs.length); sg.style.setProperty('--i', i); sg.classList.add('sl');
+    if (p === undefined || p === i || rm) return;
+    sg.style.setProperty('--p', p); sg.classList.add('mv');
+    if (sg.dataset.pane) app.querySelectorAll(sg.dataset.pane).forEach(el => { el.style.setProperty('--dir', i > p ? 1 : -1); el.classList.add('seg-in'); });
   });
   const off = demoOff(); app.querySelectorAll('svg.dm').forEach(s => { try { if (off) s.pauseAnimations(); } catch (er) { /* sem SMIL */ } });
 }
@@ -2916,7 +3095,7 @@ function desafioCard() {
 
 V.amigos = ({ tab = 'feed' } = {}) => `
   <div class="gut wk-top"><button class="wk-x" data-a="back" aria-label="Voltar">${ic('left')}</button><div class="wk-tt"><b>Amigos</b><span>${frAll().length} amigos · UFMS</span></div><button class="wk-x" data-a="openAddFr" aria-label="Adicionar amigos">${ic('plus')}</button></div>
-  <div class="gut"><div class="pg-seg fr-seg" role="tablist" aria-label="Seção">${[['feed', 'Feed'], ['rank', 'Ranking']].map(([k, l]) => `<button role="tab" aria-selected="${tab === k}" class="${tab === k ? 'on' : ''}" data-a="frTab" data-v="${k}">${l}</button>`).join('')}</div></div>
+  <div class="gut"><div class="pg-seg fr-seg" role="tablist" aria-label="Seção" data-pane=".fr">${[['feed', 'Feed'], ['rank', 'Ranking']].map(([k, l]) => `<button role="tab" aria-selected="${tab === k}" class="${tab === k ? 'on' : ''}" data-a="frTab" data-v="${k}">${l}</button>`).join('')}</div></div>
   <div class="scroll"><div class="gut fr">${tab === 'rank' ? rankView() : feedView()}</div></div>
   ${tabbar('home')}`;
 function feedView() {
@@ -3003,6 +3182,8 @@ const liveBar = () => { const w = S.workout; const r = w.rest; return `<div clas
 function render(resetScroll) {
   syncW();
   const sc = app.querySelector('.scroll'); const keep = !resetScroll && lastScreen === S.screen && sc ? sc.scrollTop : 0;
+  // Primeira vez em Água ou em Calorias: o Calipe pede a meta antes de começar.
+  if (S.screen === 'agua' && !S.modal) { const k = S.aguaMode === 'cal' ? 'cal' : 'agua'; if (!(S.metas || {})[k]) S.modal = { name: 'meta', data: { k, first: true, v: META[k].sug() } }; }
   const view = V[S.screen] || V.home; kpT = null; app.classList.remove('kp-open');
   let html = view(S.params || {});
   if (!(S.screen === 'agua' && S.aguaMode !== 'cal')) agFx = null;
@@ -3122,8 +3303,8 @@ const A = {
   doneHome: () => { S.stack = []; go('home'); },
   howEx: el => { const [id, i] = el.dataset.v.split(':'); modal('howEx', { id, i: +i }); },
   fav: el => { const k = el.dataset.v; const f = new Set(S.favs || []); const on = !f.has(k); on ? f.add(k) : f.delete(k); S.favs = [...f]; save(); render(); toast(on ? `${W[k].nome} nos favoritos` : 'Removido dos favoritos'); },
-  newWorkout: () => { S.draft = { nome: '', tag: 'Hipertrofia', cor: COVERS[0], foto: 'fotoPerfil', ex: [] }; go('criar'); },
-  drTag: el => { S.draft.tag = el.dataset.v; save(); render(); },
+  newWorkout: () => { S.draft = { nome: '', tag: 'Hipertrofia', cor: TAGCOR.Hipertrofia, foto: 'fotoPerfil', ex: [] }; go('criar'); },
+  drTag: el => { S.draft.tag = el.dataset.v; S.draft.cor = TAGCOR[el.dataset.v] || S.draft.cor; save(); render(); },
   drCor: el => { S.draft.cor = COVERS[+el.dataset.v]; save(); render(); },
   drFoto: el => { S.draft.foto = el.dataset.v; save(); render(); },
   drAdj: el => { const [i, f, d] = el.dataset.v.split(':'); const e = S.draft.ex[+i]; e[f] = Math.max(1, Math.min(f === 's' ? 8 : 50, e[f] + +d)); save(); render(); },
@@ -3155,6 +3336,15 @@ const A = {
   openXpInfo: () => modal('xpInfo'),
   openSobre: () => modal('sobre'),
   aguaMode: el => { S.aguaMode = el.dataset.v; save(); render(); },
+  editMeta: el => modal('meta', { k: el.dataset.v, v: metaOf(el.dataset.v) }),
+  metaAdj: el => { const d = S.modal.data, m = META[d.k]; d.v = Math.min(m.max, Math.max(m.min, d.v + m.step * +el.dataset.v)); paintMeta(); },
+  metaSug: () => { const d = S.modal.data; d.v = META[d.k].sug(); paintMeta(); },
+  metaSave: () => {
+    const d = S.modal.data; S.metas = { ...(S.metas || {}), [d.k]: d.v }; S.modal = null;
+    // Baixar a meta abaixo do que já bebeu hoje conta como meta batida, igual a registrar água.
+    if (d.k === 'agua' && S.water.day === dayKey() && !S.water.bonus && S.water.ml >= d.v) { S.water.bonus = true; addXp(XP.agua); }
+    save(); render(); toast(d.k === 'agua' ? `Meta de água: ${META.agua.fmt(d.v)} L por dia` : `Meta de calorias: ${fmt(d.v)} kcal por dia`);
+  },
   openAddFood: el => { S.fq = { meal: (el && el.dataset.v) || mealNow() }; modal('addFood'); },
   closeFood: () => { S.fq = null; closeModal(); },
   fmeal: el => { S.fq.meal = el.dataset.v; render(); },
@@ -3180,6 +3370,20 @@ const A = {
     S.wq = null; S.modal = null; agAdd = total; render(); toast(meta || `+${fmt(total)} ml registrados`);
   },
   hideVoice: () => { S.hideVoice = true; save(); render(); },
+  espAbrir: () => { modal('espera'); const f = document.getElementById('esp-mail'); if (f) f.focus(); },
+  espOcultar: () => { S.esperaOculta = true; save(); render(); },
+  espEnviar: async el => {
+    if (el.disabled) return;
+    const email = ((document.getElementById('esp-mail') || {}).value || '').trim().toLowerCase(); const ok = (document.getElementById('esp-ok') || {}).checked;
+    const err = document.getElementById('esp-err'); const fail = m => { err.textContent = m; };
+    if (!email) return fail('Digite seu e-mail.');
+    if (email.length > 254 || !ESP_RE.test(email)) return fail('Esse e-mail parece incompleto. Confira, por favor.');
+    if (!ok) return fail('Marque a caixa de aceite para entrar na lista.');
+    const demo = !espCfg(); el.disabled = true; el.textContent = 'Enviando…'; fail('');
+    try { await espSalvar(email); } catch (e) { el.disabled = false; el.textContent = 'Entrar na lista'; return fail('Não deu para enviar agora. Confira a internet e tente de novo.'); }
+    if (!demo) S.espera = { email: espMask(email), at: Date.now() };
+    S.modal = { name: 'esperaOk', data: { demo, email: espMask(email) } }; save(); render();
+  },
   day: el => { const k = el.dataset.v; const hs = S.history.filter(h => h.day === k); const lbl = dLabel(new Date(k + 'T12:00')); toast(hs.length ? `${lbl}: ${hs.map(h => `${h.nome} · ${fmt(h.vol)} kg`).join(' + ')}` : `${lbl}: sem treino ainda. Bora começar?`); },
   undoWater: () => { const l = S.water.log.pop(); if (l) { S.water.ml = Math.max(0, S.water.ml - l.ml); } save(); render(); toast('Último registro desfeito'); },
   goPhoto: () => go('foto'),

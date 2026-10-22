@@ -7,6 +7,7 @@ module.exports = defineConfig([
   expoConfig,
   prettierConfig,
   {
-    ignores: ['dist/*'],
+    // docs/ tem as páginas estáticas já montadas; firebase/ é um projeto à parte, com dependências próprias.
+    ignores: ['dist/*', 'docs/**', 'firebase/**'],
   },
 ]);
