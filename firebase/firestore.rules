@@ -1,0 +1,54 @@
+rules_version = '2';
+
+// Regras do Firestore do Iron Capi.
+// Lista de espera: qualquer pessoa pode SE INSCREVER, mas ninguém de fora consegue ler,
+// alterar ou apagar inscrições. Só quem está em `admins` (pelo e-mail Google verificado) lê.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Admin = login Google com e-mail verificado e um documento `admins/{email}` criado pelo
+    // time no console do Firebase. Nenhum app consegue criar esse documento (veja abaixo).
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
+    }
+
+    // Inscrição válida: só os campos esperados, e-mail em minúsculas e só com caracteres comuns de e-mail
+    // (nada de <, > ou aspas, então o painel nunca recebe HTML disfarçado de e-mail),
+    // consentimento marcado e data definida pelo servidor (o celular não escolhe a data).
+    // O id do documento é o SHA-256 do e-mail: o mesmo e-mail não entra duas vezes.
+    function inscricaoValida(id) {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['email', 'consentimento', 'origem', 'criadoEm'])
+        && d.keys().hasAll(['email', 'consentimento', 'origem', 'criadoEm'])
+        && d.email is string
+        && d.email.size() <= 254
+        && d.email == d.email.lower()
+        && d.email.matches('^[a-z0-9._%+-]+@[a-z0-9-]+([.][a-z0-9-]+)*[.][a-z]{2,}$')
+        && d.consentimento == true
+        && d.origem is string
+        && d.origem.size() <= 40
+        && d.criadoEm == request.time
+        && id == hashing.sha256(d.email).toHexString().lower();
+    }
+
+    match /lista_espera/{id} {
+      // Criar um id que já existe conta como "update" e é recusado: ninguém sobrescreve inscrição.
+      allow create: if inscricaoValida(id);
+      allow read, delete: if isAdmin();
+      allow update: if false;
+    }
+
+    // Quem é admin: só se edita pelo console do Firebase (as regras não valem para o console).
+    match /admins/{email} {
+      allow read: if request.auth != null && request.auth.token.email == email;
+      allow write: if false;
+    }
+
+    // Todo o resto fica fechado até o app ganhar as próprias regras.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

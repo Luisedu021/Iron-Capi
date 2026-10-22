@@ -1,0 +1,17 @@
+{
+  "name": "iron-capi-firebase",
+  "private": true,
+  "type": "module",
+  "description": "Regras do Firestore, testes no emulador e o Firebase das páginas estáticas de docs/.",
+  "scripts": {
+    "test": "firebase emulators:exec --only firestore --project demo-iron-capi \"node --test test/*.test.mjs\"",
+    "build:web": "esbuild web/entrada.js --bundle --format=esm --minify --target=es2020 --legal-comments=eof --outfile=../docs/vendor/firebase.js",
+    "deploy:regras": "firebase deploy --only firestore:rules"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "5.0.2",
+    "esbuild": "0.25.10",
+    "firebase": "12.19.0",
+    "firebase-tools": "14.27.0"
+  }
+}
