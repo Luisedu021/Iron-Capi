@@ -1226,30 +1226,52 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .fr-ds-bar { flex: 1; height: 10px; border-radius: 99px; background: rgba(255,255,255,.22); overflow: hidden; }
 .fr-ds-bar i { display: block; height: 100%; border-radius: 99px; background: #9EA1FF; }
 .fr-ds-s { color: #fff !important; font-weight: 600; }
-.fr-mt { display: flex; gap: 8px; }
-.fr-mt button { flex: 1; min-height: 36px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1.5px rgba(125,128,254,.35); color: var(--marinho); font-family: var(--f-ui); font-weight: 600; font-size: 12.5px; }
-.fr-mt button.on { background: var(--marinho); color: #fff; box-shadow: none; }
-.fr-pod { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; gap: 8px; padding: 18px 12px 0; border-radius: 22px; background: linear-gradient(180deg, #fff 0%, #F0F0FF 100%); box-shadow: 0 2px 12px rgba(11,13,114,.06); overflow: hidden; }
-.fr-pd { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
-.fr-pd b { max-width: 100%; font-size: 13.5px; color: #101021; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.fr-pd small { font-family: var(--f-ui); font-weight: 600; font-size: 11.5px; color: var(--suave); }
-.fr-cr { position: absolute; top: -14px; font-size: 18px; }
-.fr-blk { width: 100%; margin-top: 6px; border-radius: 14px 14px 0 0; display: grid; place-items: start center; padding-top: 8px; background: linear-gradient(180deg, #9EA1FF, #7D80FE); }
-.fr-blk i { font-style: normal; font-weight: 800; font-size: 22px; color: #fff; }
-.fr-pd.p1 .fr-blk { height: 92px; background: linear-gradient(180deg, #5A5EE6, #343B9D); }
-.fr-pd.p2 .fr-blk { height: 66px; }
-.fr-pd.p3 .fr-blk { height: 48px; background: linear-gradient(180deg, #C7C8FD, #9EA1FF); }
-.fr-pd.me .fr-av { box-shadow: 0 0 0 3px #FFB36B; }
+/* Ranking: palco com raios de luz, pódio com profundidade (face de cima em perspectiva) e lista em folha. */
+.fr-mt { grid-template-columns: 1fr 1fr; }
+.fr-stage { position: relative; isolation: isolate; margin: -2px calc(-1 * var(--gr)) 0 calc(-1 * var(--gl)); padding: 4px var(--gr) 0 var(--gl); overflow: hidden; }
+.fr-stage::before { content: ''; position: absolute; z-index: -1; left: 50%; top: 70px; width: 620px; height: 620px; transform: translate(-50%, -38%); border-radius: 50%; background: repeating-conic-gradient(from 4deg, rgba(255,255,255,.7) 0deg 7deg, rgba(255,255,255,0) 7deg 18deg); -webkit-mask: radial-gradient(closest-side, #000 18%, transparent 72%); mask: radial-gradient(closest-side, #000 18%, transparent 72%); }
+.fr-wk { display: table; margin: 2px auto 6px; padding: 5px 12px; border-radius: 999px; background: #F5EBC5; box-shadow: 0 2px 8px rgba(160,110,0,.15); font-family: var(--f-ui); font-weight: 700; font-size: 11.5px; color: #6B4E00; }
+.fr-pod { display: grid; grid-template-columns: 1fr 1.14fr 1fr; align-items: end; }
+.fr-pd { position: relative; display: flex; flex-direction: column; align-items: center; min-width: 0; --c1: #A9ABFF; --c2: #5257E8; }
+.fr-pd.p1 { --c1: #F7DB7C; --c2: #E3A92B; z-index: 2; }
+.fr-pd.p3 { --c1: #8FE0BD; --c2: #349D73; }
+.fr-who { display: flex; flex-direction: column; align-items: center; gap: 4px; max-width: 100%; padding: 0 4px 2px; }
+.fr-crown { width: 34px; height: 24px; margin-bottom: -6px; position: relative; z-index: 1; filter: drop-shadow(0 3px 4px rgba(160,110,0,.35)); animation: crown 2.6s ease-in-out infinite; }
+@keyframes crown { 50% { transform: translateY(-3px) rotate(-4deg); } }
+.fr-ring { padding: 3px; border-radius: 999px; background: linear-gradient(160deg, var(--c1), var(--c2)); box-shadow: 0 10px 20px color-mix(in srgb, var(--c2) 38%, transparent); }
+.fr-ring .fr-av { box-shadow: 0 0 0 3px #fff; }
+.fr-pd.me .fr-ring { background: linear-gradient(160deg, #FFD3A8, #FF8A3D); }
+.fr-who b { max-width: 100%; margin-top: 4px; font-weight: 800; font-size: 13.5px; color: #101021; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fr-pts { padding: 3px 10px; border-radius: 999px; background: rgba(255,255,255,.9); box-shadow: 0 1px 6px rgba(11,13,114,.1); font-family: var(--f-ui); font-weight: 700; font-size: 11px; color: var(--marinho); white-space: nowrap; }
+.fr-blk { position: relative; width: 100%; margin-top: 26px; padding-top: 12px; display: flex; flex-direction: column; align-items: center; background: linear-gradient(180deg, var(--c2) 0%, color-mix(in srgb, var(--c2) 80%, transparent) 30%, color-mix(in srgb, var(--c2) 25%, transparent) 70%, color-mix(in srgb, var(--c2) 0%, transparent) 100%); }
+.fr-blk::before { content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: 18px; background: linear-gradient(180deg, color-mix(in srgb, var(--c1) 55%, #fff), var(--c1)); clip-path: polygon(9% 0, 91% 0, 100% 100%, 0 100%); }
+.fr-pd.p2 .fr-blk::before { clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%); }
+.fr-pd.p3 .fr-blk::before { clip-path: polygon(0 0, 82% 0, 100% 100%, 0 100%); }
+.fr-pd.p1 .fr-blk { height: 150px; box-shadow: -8px 0 18px -10px rgba(11,13,114,.35), 8px 0 18px -10px rgba(11,13,114,.35); }
+.fr-pd.p2 .fr-blk { height: 116px; }
+.fr-pd.p3 .fr-blk { height: 96px; }
+.fr-blk i { font-style: normal; font-weight: 800; font-size: 46px; line-height: 1; color: rgba(255,255,255,.95); text-shadow: 0 2px 0 color-mix(in srgb, var(--c2) 65%, #000), 0 8px 16px rgba(0,0,0,.18); }
+.fr-blk svg { width: 54px; height: 26px; margin-top: -6px; color: rgba(255,255,255,.8); }
+.fr-sheet { position: relative; display: flex; flex-direction: column; gap: 10px; margin: -26px calc(-1 * var(--gr)) -20px calc(-1 * var(--gl)); padding: 26px var(--gr) 22px var(--gl); border-radius: 30px 30px 0 0; background: #fff; box-shadow: 0 -10px 30px rgba(11,13,114,.08); }
+.fr-hdl { position: absolute; left: 50%; top: 6px; transform: translateX(-50%); color: #A9ABC6; }
+.fr-hdl svg { display: block; width: 22px; height: 14px; }
 .fr-ls { display: flex; flex-direction: column; gap: 8px; }
-.fr-r { display: flex; align-items: center; gap: 10px; min-height: 58px; padding: 8px 12px; border-radius: 16px; background: #fff; text-align: left; box-shadow: 0 2px 10px rgba(11,13,114,.05); }
+.fr-r { display: flex; align-items: center; gap: 10px; min-height: 64px; padding: 10px 12px 10px 10px; border-radius: 20px; background: #F5F6FC; text-align: left; transition: transform .12s; }
+.fr-r:active { transform: scale(.985); }
 .fr-r:disabled { opacity: 1; }
-.fr-r.me { background: #ECEBFF; box-shadow: inset 0 0 0 1.5px #7D80FE; }
-.fr-ps { width: 30px; flex: none; font-weight: 700; color: var(--suave); }
-.fr-r b { display: block; font-size: 14.5px; color: #101021; }
+.fr-r.me { background: #EEEDFF; box-shadow: inset 0 0 0 1.5px #7D80FE; }
+.fr-ps { width: 22px; flex: none; text-align: center; font-weight: 800; font-size: 14px; color: #A9ABC6; }
+.fr-r .fr-av { box-shadow: 0 0 0 2.5px #fff, 0 4px 10px rgba(11,13,114,.12); }
+.fr-r b { display: block; font-size: 15px; color: #101021; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .fr-r em { font-style: normal; font-weight: 600; font-size: 12px; color: #7D80FE; }
-.fr-r small { display: block; font-family: var(--f-ui); font-size: 11.5px; color: var(--suave); }
-.fr-r > b.tnum { flex: none; color: var(--marinho); font-size: 14px; }
-.fr-r > svg.i { width: 16px; height: 16px; color: var(--suave); }
+.fr-r small { display: block; margin-top: 2px; font-family: var(--f-ui); font-weight: 500; font-size: 12px; color: var(--suave); }
+.fr-r .grow { min-width: 0; }
+.fr-tr { display: inline-flex; align-items: center; gap: 5px; flex: none; min-width: 52px; justify-content: center; padding: 6px 10px; border-radius: 12px; font-family: var(--f-ui); font-weight: 800; font-size: 13px; }
+.fr-tr svg { width: 10px; height: 10px; fill: currentColor; }
+.fr-tr.up { background: #E3F6EC; color: #23805B; }
+.fr-tr.down { background: #FDE8E8; color: #C23B3B; }
+.fr-tr.down svg { transform: rotate(180deg); }
+.fr-tr.eq { background: #EEEFF6; color: var(--suave); }
 .fr-tip { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: rgba(125,128,254,.12); font-family: var(--f-ui); font-size: 13px; color: #101021; }
 .fr-tip img { width: 30px; height: 30px; border-radius: 99px; object-fit: cover; flex: none; }
 .cm-hd { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; padding: 18px 10px; border-radius: 22px; background: #fff; text-align: center; }
@@ -1281,11 +1303,13 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .fr-hm-t { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; color: var(--marinho); }
 .fr-hm-t svg.i { width: 18px; height: 18px; color: #7D80FE; }
 .fr-hm-l { display: flex; flex-direction: column; gap: 6px; }
-.fr-hm-l > div { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 4px 10px; border-radius: 12px; background: #F4F5FB; font-family: var(--f-ui); font-size: 13.5px; color: #101021; }
+.fr-hm-l > div { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 6px 8px 6px 10px; border-radius: 16px; background: #F5F6FC; font-family: var(--f-ui); font-size: 13.5px; color: #101021; }
+.fr-hm-l .fr-tr { min-width: 44px; padding: 4px 8px; font-size: 12px; }
+.fr-hm-l small { display: block; font-weight: 500; font-size: 11.5px; color: var(--suave); }
 .fr-hm-l > div.me { background: #ECEBFF; box-shadow: inset 0 0 0 1.5px #7D80FE; }
 .fr-hm-l > div > span:first-child { width: 22px; font-weight: 700; color: var(--suave); }
-.fr-hm-l b { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.fr-hm-l > div > span:last-child { font-weight: 700; color: var(--marinho); }
+.fr-hm-l b { display: block; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
 .fr-hm-s { margin: 0; font-family: var(--f-ui); font-size: 13px; color: #101021; }
 .fr-hm-f { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 8px 10px; border-radius: 14px; background: #fff; box-shadow: inset 0 0 0 1px #ECEEF8; text-align: left; font-family: var(--f-ui); font-size: 12.5px; color: var(--suave); }
 .fr-hm-f b { color: #101021; }
@@ -3080,6 +3104,15 @@ function meStats() {
   const ws = dayKey(weekStart()); const hs = S.history.filter(h => h.day >= ws);
   return { id: 'me', nome: 'Você', lvl: S.level, wt: new Set(hs.map(h => h.day)).size, wx: hs.reduce((a, h) => a + (h.xp || 0), 0), seq: streakInfo().n, vol: hs.reduce((a, h) => a + (h.vol || 0), 0), rs: hs.reduce((a, h) => a + (h.prs || []).length, 0) };
 }
+// Semana passada (amostra para o teste): é dela que saem as setas de subiu e caiu.
+const ANT = { gabi: [640, 3], pedro: [780, 3], ana: [300, 2], lucas: [420, 2], julia: [90, 1], rafa: [150, 1], bia: [500, 2], caio: [60, 1], duda: [700, 3] };
+function meAnt() { const a = dayKey(addDays(-7, weekStart())), b = dayKey(weekStart()); const hs = S.history.filter(h => h.day >= a && h.day < b); return { id: 'me', wx: hs.reduce((t, h) => t + (h.xp || 0), 0), wt: new Set(hs.map(h => h.day)).size }; }
+function posAnt(m) { const k = m === 'wt' ? 1 : 0; const rk = frAll().map(f => ({ id: f.id, [m]: ANT[f.id] ? ANT[f.id][k] : f[m] })).concat([meAnt()]).sort((a, b) => b[m] - a[m] || (a.id === 'me' ? 1 : b.id === 'me' ? -1 : 0)); return Object.fromEntries(rk.map((r, i) => [r.id, i + 1])); }
+const TRI = '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1.5 9.2 8.5H.8z"/></svg>';
+const trend = (r, ant) => { const d = (ant[r.id] || r.pos) - r.pos; return d > 0 ? `<span class="fr-tr up" aria-label="Subiu ${d} ${d === 1 ? 'posição' : 'posições'} desde a semana passada">${TRI}${d}</span>` : d < 0 ? `<span class="fr-tr down" aria-label="Caiu ${-d} ${d === -1 ? 'posição' : 'posições'} desde a semana passada">${TRI}${-d}</span>` : '<span class="fr-tr eq" aria-label="Mesma posição da semana passada">–</span>'; };
+const CROWN = '<svg class="fr-crown" viewBox="0 0 34 24" aria-hidden="true"><defs><linearGradient id="crg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE48A"/><stop offset="1" stop-color="#E3A92B"/></linearGradient></defs><path d="M3 20 5 7l7 6 5-10 5 10 7-6 2 13z" fill="url(#crg)" stroke="#C98A0A" stroke-width="1.2" stroke-linejoin="round"/><rect x="3" y="19" width="28" height="4" rx="2" fill="#E3A92B"/><circle cx="5" cy="6" r="2" fill="#FFE48A"/><circle cx="17" cy="2.6" r="2" fill="#FFE48A"/><circle cx="29" cy="6" r="2" fill="#FFE48A"/></svg>';
+const LAUREL = (() => { const lf = [[23, 25, -15], [16.5, 22, -35], [11.5, 17, -52], [8, 11, -68], [6.5, 5, -84]].map(([x, y, a]) => `<ellipse cx="${x}" cy="${y}" rx="4" ry="1.9" transform="rotate(${a} ${x} ${y})"/>`).join(''); return `<svg viewBox="0 0 60 30" fill="currentColor" aria-hidden="true"><g>${lf}</g><g transform="matrix(-1 0 0 1 60 0)">${lf}</g></svg>`; })();
+const CHEV_UP = '<svg viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9.5 11 4l6 5.5"/></svg>';
 const RANK_M = { wx: ['XP', v => `${fmt(v)} XP`], wt: ['Treinos', v => `${v} ${v === 1 ? 'treino' : 'treinos'}`] };
 function ranking(m = 'wx') { const me = meStats(); return frAll().concat([me]).sort((a, b) => b[m] - a[m] || (a.id === 'me' ? 1 : b.id === 'me' ? -1 : 0)).map((f, i) => ({ ...f, pos: i + 1 })); }
 // Desafio da semana: quem treinar mais até domingo.
@@ -3125,14 +3158,22 @@ function postHTML(p) {
   </article>`;
 }
 function rankView() {
-  const m = S.rankM || 'wx'; const rk = ranking(m); const fmtV = RANK_M[m][1]; const top = rk.slice(0, 3); const me = rk.find(r => r.id === 'me'); const above = rk[me.pos - 2];
-  const pod = [top[1], top[0], top[2]].filter(Boolean);
-  return `<div class="fr-mt" role="radiogroup" aria-label="Comparar por">${Object.entries(RANK_M).map(([k, [l]]) => `<button role="radio" aria-checked="${m === k}" class="${m === k ? 'on' : ''}" data-a="rankM" data-v="${k}">${l} da semana</button>`).join('')}</div>
-    <div class="fr-pod">${pod.map(r => `<button class="fr-pd p${r.pos} ${r.id === 'me' ? 'me' : ''}" ${r.id === 'me' ? 'data-a="frTab" data-v="feed"' : `data-a="openCmp" data-v="${r.id}"`} aria-label="${r.pos}º lugar: ${esc(r.id === 'me' ? 'você' : r.nome)}, ${fmtV(r[m])}">${r.pos === 1 ? '<span class="fr-cr">👑</span>' : ''}${frAv(r, r.pos === 1 ? 58 : 48)}<b>${r.id === 'me' ? 'Você' : esc(r.nome.split(' ')[0])}</b><small class="tnum">${fmtV(r[m])}</small><span class="fr-blk"><i>${r.pos}</i></span></button>`).join('')}</div>
-    <div class="fr-ls">${rk.slice(3).map(r => `<button class="fr-r ${r.id === 'me' ? 'me' : ''}" ${r.id === 'me' ? 'disabled' : `data-a="openCmp" data-v="${r.id}"`}><span class="fr-ps tnum">#${r.pos}</span>${frAv(r, 36)}<span class="grow"><b>${r.id === 'me' ? `${esc(S.user.nome || 'Você')} <em>(você)</em>` : esc(r.nome)}</b><small>Nível ${r.lvl}</small></span><b class="tnum">${fmtV(r[m])}</b>${r.id === 'me' ? '' : ic('right')}</button>`).join('')}</div>
-    <div class="fr-tip"><img src="${IMG.avatar}" alt=""><span>${me.pos === 1 ? `Você lidera a semana! ${rk[1] ? `${esc(rk[1].nome.split(' ')[0])} está a ${fmtV(me[m] - rk[1][m])}.` : ''}` : `Faltam <b>${fmtV(above[m] - me[m] + 1)}</b> para passar ${esc(above.nome.split(' ')[0])}. ${m === 'wx' ? 'Um treino completo resolve!' : 'Bora treinar hoje?'}`}</span></div>
-    <p class="wk-note">${ic('info')} O ranking zera toda segunda. Conta o XP dos treinos (séries, treino finalizado, recordes e sequência).</p>
-    <button class="btn second" data-a="openAddFr">${ic('users')} Convidar amigos</button>`;
+  const m = S.rankM || 'wx'; const rk = ranking(m); const ant = posAnt(m); const fmtV = RANK_M[m][1]; const top = rk.slice(0, 3); const me = rk.find(r => r.id === 'me'); const above = rk[me.pos - 2];
+  const pod = [top[1], top[0], top[2]].filter(Boolean); const ws = weekStart(), we = addDays(6, ws); const left = daysLeft();
+  const nome = r => r.id === 'me' ? 'Você' : esc(r.nome.split(' ')[0]);
+  return `<div class="pg-seg fr-mt" role="radiogroup" aria-label="Comparar por" data-pane=".fr-stage, .fr-sheet">${Object.entries(RANK_M).map(([k, [l]]) => `<button role="radio" aria-checked="${m === k}" class="${m === k ? 'on' : ''}" data-a="rankM" data-v="${k}">${l} da semana</button>`).join('')}</div>
+    <div class="fr-stage">
+      <span class="fr-wk">Semana de ${ws.getDate()} a ${we.getDate()} de ${MES3[we.getMonth()]} · ${left ? `zera em ${left} ${left === 1 ? 'dia' : 'dias'}` : 'zera hoje à noite'}</span>
+      <div class="fr-pod">${pod.map(r => `<button class="fr-pd p${r.pos} ${r.id === 'me' ? 'me' : ''}" ${r.id === 'me' ? 'data-a="frTab" data-v="feed"' : `data-a="openCmp" data-v="${r.id}"`} aria-label="${r.pos}º lugar: ${r.id === 'me' ? 'você' : esc(r.nome)}, ${fmtV(r[m])}">
+        <span class="fr-who">${r.pos === 1 ? CROWN : ''}<span class="fr-ring">${frAv(r, r.pos === 1 ? 70 : 56)}</span><b>${nome(r)}</b><small class="fr-pts tnum">${fmtV(r[m])}</small></span>
+        <span class="fr-blk"><i class="tnum">${r.pos}</i>${LAUREL}</span></button>`).join('')}</div>
+    </div>
+    <div class="fr-sheet"><span class="fr-hdl">${CHEV_UP}</span>
+      <div class="fr-ls">${rk.slice(3).map(r => `<button class="fr-r ${r.id === 'me' ? 'me' : ''}" ${r.id === 'me' ? 'disabled' : `data-a="openCmp" data-v="${r.id}"`}><span class="fr-ps tnum">${r.pos}</span>${frAv(r, 44)}<span class="grow"><b>${r.id === 'me' ? `${esc(S.user.nome || 'Você')} <em>(você)</em>` : esc(r.nome)}</b><small class="tnum">${fmtV(r[m])} · Nível ${r.lvl}</small></span>${trend(r, ant)}</button>`).join('')}</div>
+      <div class="fr-tip"><img src="${IMG.avatar}" alt=""><span>${me.pos === 1 ? `Você lidera a semana! ${rk[1] ? `${esc(rk[1].nome.split(' ')[0])} está a ${fmtV(me[m] - rk[1][m])}.` : ''}` : `Faltam <b>${fmtV(above[m] - me[m] + 1)}</b> para passar ${esc(above.nome.split(' ')[0])}. ${m === 'wx' ? 'Um treino completo resolve!' : 'Bora treinar hoje?'}`}</span></div>
+      <p class="wk-note">${ic('info')} O ranking zera toda segunda. Conta o XP dos treinos (séries, treino finalizado, recordes e sequência). As setas comparam com a semana passada.</p>
+      <button class="btn second" data-a="openAddFr">${ic('users')} Convidar amigos</button>
+    </div>`;
 }
 V.comparar = ({ id }) => {
   const f = frById(id); if (!f) return V.amigos({ tab: 'rank' }); const me = meStats(); const d = desafio(); const fn = esc(f.nome.split(' ')[0]);
@@ -3163,10 +3204,10 @@ M.addFr = () => { const code = `${(S.user.nome || 'capi').normalize('NFD').repla
 </div></div>`; };
 // Card da Home: onde você está no ranking e o que falta para subir.
 function frHome() {
-  const rk = ranking('wx'); const me = rk.find(r => r.id === 'me'); const i = me.pos - 1; const show = me.pos === 1 ? rk.slice(0, 3) : rk.slice(Math.max(0, i - 1), i + 2); const above = rk[i - 1]; const last = FEED[0]; const lf = frById(last.fr); const d = desafio();
+  const rk = ranking('wx'); const ant = posAnt('wx'); const me = rk.find(r => r.id === 'me'); const i = me.pos - 1; const show = me.pos === 1 ? rk.slice(0, 3) : rk.slice(Math.max(0, i - 1), i + 2); const above = rk[i - 1]; const last = FEED[0]; const lf = frById(last.fr); const d = desafio();
   return `<div class="hm-card fr-hm">
     <div class="row between"><b class="fr-hm-t">${ic('users')} Amigos esta semana</b><button class="linkbtn" data-a="openAmigos" data-v="rank">Ranking ${ic('right')}</button></div>
-    <div class="fr-hm-l">${show.map(r => `<div class="${r.id === 'me' ? 'me' : ''}"><span class="tnum">${r.pos}º</span>${frAv(r, 30)}<b class="grow">${r.id === 'me' ? 'Você' : esc(r.nome)}</b><span class="tnum">${fmt(r.wx)} XP</span></div>`).join('')}</div>
+    <div class="fr-hm-l">${show.map(r => `<div class="${r.id === 'me' ? 'me' : ''}"><span class="tnum">${r.pos}º</span>${frAv(r, 34)}<span class="grow" style="min-width:0"><b>${r.id === 'me' ? 'Você' : esc(r.nome)}</b><small class="tnum">${fmt(r.wx)} XP</small></span>${trend(r, ant)}</div>`).join('')}</div>
     <p class="fr-hm-s">${d ? `Desafio com ${esc(frById(d.fr).nome.split(' ')[0])}: você ${meStats().wt} × ${frById(d.fr).wt}.` : me.pos === 1 ? 'Você lidera a semana entre os amigos!' : `Faltam <b>${fmt(above.wx - me.wx + 1)} XP</b> para passar ${esc(above.nome.split(' ')[0])}.`}</p>
     <button class="fr-hm-f" data-a="openAmigos" data-v="feed">${frAv(lf, 28)}<span class="grow"><b>${esc(lf.nome.split(' ')[0])}</b> treinou ${esc(last.nome)} · ${agoTxt(last.h)}</span><span class="fr-hm-go">Feed ${ic('right')}</span></button>
   </div>`;
