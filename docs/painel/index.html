@@ -105,6 +105,8 @@ dialog .acoes { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: w
   <div class="acoes"><button class="btn sec" type="button" value="nao" id="dlg-nao">Cancelar</button><button class="btn perigo" type="button" id="dlg-sim">Remover</button></div>
 </dialog>
 <script type="module">
+// O painel nunca roda dentro de outro site: evita que uma página maliciosa esconda o painel e induza cliques em "Remover".
+if (window.top !== window.self) { document.body.textContent = 'Abra o painel em uma aba própria.'; throw new Error('Painel aberto dentro de outro site'); }
 const cfg = window.IRON_FIREBASE;
 const $ = id => document.getElementById(id);
 const main = $('main');

@@ -1952,7 +1952,7 @@ V.home = () => {
   <div class="scroll"><div class="gut hm">
     ${appHead('Seja bem-vindo!')}
     <div class="hm-lbl">${trainedToday ? 'Próximo treino' : 'Treino de hoje'}${seqI >= 0 ? `<span class="hm-seq">${'ABCDEF'[seqI]} de ${rot.length} da sua sequência</span>` : ''}</div>
-    <div class="fc"><button class="today-card" data-a="openWorkout" data-v="${wid}" aria-label="Ver treino ${W[wid].nome}">${wcard(wid)}</button><button class="go-b" data-a="start" data-v="${wid}" aria-label="Começar ${W[wid].nome} agora"></button></div>
+    <div class="fc"><button class="today-card" data-a="openWorkout" data-v="${wid}" aria-label="Ver treino ${esc(W[wid].nome)}">${wcard(wid)}</button><button class="go-b" data-a="start" data-v="${wid}" aria-label="Começar ${esc(W[wid].nome)} agora"></button></div>
     ${esperaCard()}
     <div class="hm-card hm-stk">
       <div class="stk-fl" role="img" aria-label="${si.n} ${si.n === 1 ? 'semana seguida' : 'semanas seguidas'}">${FLAME_BIG}<b class="tnum">${si.n}</b></div>
@@ -2008,7 +2008,7 @@ const catsOf = k => WCAT[k] || [TAGCAT[W[k].tag]].filter(Boolean);
 const isFav = k => (S.favs || []).includes(k);
 const ORDEM = ['fullbody', 'upperlower', 'funcional', 'peito', 'pernas', 'dupla', 'costas', 'mobilidade', 'corrida'];
 const favBtn = k => `<button class="fav-b ${isFav(k) ? 'on' : ''}" data-a="fav" data-v="${k}" aria-pressed="${isFav(k)}" aria-label="${isFav(k) ? 'Tirar dos favoritos' : 'Favoritar'} ${esc(W[k].nome)}"><i>${ic('heart')}</i></button>`;
-const ficha = k => { const w = W[k]; return `<div class="fc"><button class="ficha" data-a="${w.soon ? 'soon' : 'openWorkout'}" data-v="${w.soon ? 'Treinos de corrida chegam na próxima versão' : k}" aria-label="${w.soon ? `${w.nome}, em breve` : `Abrir treino ${esc(w.nome)}`}">${wcard(k)}${w.soon ? '<span class="chip solid soon">Em breve</span>' : ''}</button>${w.soon ? '' : `<button class="go-b" data-a="start" data-v="${k}" aria-label="Começar ${esc(w.nome)} agora"></button>${favBtn(k)}`}</div>`; };
+const ficha = k => { const w = W[k]; return `<div class="fc"><button class="ficha" data-a="${w.soon ? 'soon' : 'openWorkout'}" data-v="${w.soon ? 'Treinos de corrida chegam na próxima versão' : k}" aria-label="${w.soon ? `${esc(w.nome)}, em breve` : `Abrir treino ${esc(w.nome)}`}">${wcard(k)}${w.soon ? '<span class="chip solid soon">Em breve</span>' : ''}</button>${w.soon ? '' : `<button class="go-b" data-a="start" data-v="${k}" aria-label="Começar ${esc(w.nome)} agora"></button>${favBtn(k)}`}</div>`; };
 // Biblioteca: todos os exercícios das fichas, as variações e os criados pelo usuário.
 function exLib() {
   const all = {}; Object.values(BASE_EX).flat().forEach(e => { if (!all[e.id]) all[e.id] = e; });
@@ -2104,7 +2104,7 @@ V.detalhe = ({ id }) => { const w = W[id]; const c = corOf(w); const g = c.hero;
 
 const wkTop = (w, bump) => `<div class="gut wk-top">
     <button class="wk-x" data-a="minWorkout" aria-label="Minimizar treino e voltar depois">${ic('chevDown')}</button>
-    <div class="wk-tt"><b>${W[w.id].nome}</b><span>${ic('clock')} <span id="elapsed" class="tnum">${elapsed()}</span></span></div>
+    <div class="wk-tt"><b>${esc(W[w.id].nome)}</b><span>${ic('clock')} <span id="elapsed" class="tnum">${elapsed()}</span></span></div>
     <span class="wk-xp ${bump ? 'bump' : ''}">${ic('zap')} <span class="tnum">${w.xp} XP</span></span>
   </div>`;
 // Barra de descanso minimizado (Hevy): o cronômetro segue rodando enquanto você ajusta a próxima série.
@@ -2529,8 +2529,8 @@ M.delW = d => `<div class="overlay"><div class="sheet wk-fs" role="dialog" aria-
 // Cartão de treino no estilo dos cards do Figma; os quatro originais continuam como imagem.
 const wcard = k => { const w = W[k]; if (w.img) return `<img src="${IMG[w.img]}" alt="">`; const c = corOf(w); return `<span class="wc${c.lt ? ' lt' : ''}" style="--bg:${c.bg};--bt:${c.bt}">
     <span class="wc-gl"></span><img class="wc-ph" src="${IMG[w.foto]}" alt="">
-    <span class="wc-tag">${w.tag}</span>
-    <span class="wc-tx"><b${w.nome.length > 14 ? ' class="lg"' : ''}>${w.nome}</b><span>${ic('flame')} ${w.nivel}<i></i>${ic('clock')} ${w.tempo}</span></span>
+    <span class="wc-tag">${esc(w.tag)}</span>
+    <span class="wc-tx"><b${w.nome.length > 14 ? ' class="lg"' : ''}>${esc(w.nome)}</b><span>${ic('flame')} ${w.nivel}<i></i>${ic('clock')} ${w.tempo}</span></span>
     <span class="wc-go">Começar</span></span>`; };
 const ROT = { 'Ganhar massa': ['fullbody', 'peito', 'costas', 'pernas'], Emagrecer: ['funcional', 'dupla', 'fullbody'], 'Resistência': ['funcional', 'dupla', 'pernas'], 'Saúde geral': ['fullbody', 'funcional', 'mobilidade'] };
 // Recomendação do dia: gira as fichas do objetivo, uma por dia.
@@ -2795,7 +2795,7 @@ M.forca = () => { const recs = recordsList(); const a = periodRange(S.period || 
   <p class="p" style="font-size:12px;margin-top:-6px">Três jeitos de evoluir: mais <b>carga</b>, mais <b>repetições</b> com a mesma carga ou mais <b>volume</b> (kg × reps) numa série.</p>
   ${ev.length ? `<div class="rc-h">Últimos recordes</div><div>${ev.map(p => `<div class="rec"><span class="ic">${ic('trophy')}</span><span class="grow"><b>${esc(p.nome)}</b><small>${cap(dLabel(new Date(p.day + 'T12:00')))} · ${prTipos(p)}</small></span><span class="chip tnum">${prTxt(p)}</span></div>`).join('')}</div>` : ''}
   <div class="rc-h">Seus melhores</div>
-  <div>${recs.length ? recs.map(r => `<div class="rec"><span class="ic">${ic('trophy')}</span><span class="grow"><b>${r.nome}</b><small>${r.kg > 0 ? (r.vol ? `Volume: ${fmt(r.vol)} kg numa série` : 'Carga') : r.tp === 'tempo' ? 'Mais tempo numa série' : 'Mais repetições numa série'}</small></span>${r.day && r.day >= a ? '<span class="pg-d">novo</span>' : ''}<span class="chip tnum">${r.kg > 0 ? `${kgf(r.kg)} kg × ${r.reps}` : `${r.mr} ${r.tp === 'tempo' ? 's' : 'reps'}`}</span></div>`).join('') : '<div class="empty">Seus recordes aparecem aqui conforme você registra séries.</div>'}</div>
+  <div>${recs.length ? recs.map(r => `<div class="rec"><span class="ic">${ic('trophy')}</span><span class="grow"><b>${esc(r.nome)}</b><small>${r.kg > 0 ? (r.vol ? `Volume: ${fmt(r.vol)} kg numa série` : 'Carga') : r.tp === 'tempo' ? 'Mais tempo numa série' : 'Mais repetições numa série'}</small></span>${r.day && r.day >= a ? '<span class="pg-d">novo</span>' : ''}<span class="chip tnum">${r.kg > 0 ? `${kgf(r.kg)} kg × ${r.reps}` : `${r.mr} ${r.tp === 'tempo' ? 's' : 'reps'}`}</span></div>`).join('') : '<div class="empty">Seus recordes aparecem aqui conforme você registra séries.</div>'}</div>
 </div></div>`; };
 
 /* ---------- Demonstração animada dos exercícios ---------- */

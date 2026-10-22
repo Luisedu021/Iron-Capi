@@ -55,6 +55,30 @@ cd firebase
 npm run build:web
 ```
 
+## Checklist de segurança (repositório público)
+
+Revisão feita em 22/10/2026 no projeto `iron-capi-9d812`. O que já está certo:
+
+- A lista de espera não pode ser lida de fora, nem logado, e as outras coleções estão fechadas.
+- As regras publicadas são as deste repositório. A inscrição sem consentimento é recusada e o e-mail repetido também.
+- O login aceita só os domínios autorizados (`luisedu021.github.io`) e a proteção contra descobrir contas por e-mail está ligada.
+- A chave da API só abre APIs do Firebase (a do Gemini, por exemplo, é bloqueada).
+- O histórico do Git não tem senhas, contas de serviço nem tokens. A única chave é a configuração web do Firebase, que é pública por natureza.
+- O painel mostra os dados sempre como texto (sem HTML), protege o CSV contra fórmulas e se recusa a abrir dentro de outro site.
+
+O que ainda falta, em ordem de prioridade:
+
+1. **Ligar o App Check (reCAPTCHA Enterprise) e clicar em Aplicar no Firestore.** Sem isso, um robô consegue inscrever e-mails falsos direto pela API, sem passar pelo site. É o passo mais importante antes de divulgar o link.
+2. **Restringir a chave por site** (passo 8 da configuração). Hoje ela aceita chamadas de qualquer origem. Libere `https://luisedu021.github.io/*`, `https://iron-capi-9d812.firebaseapp.com/*` e `http://localhost/*`.
+3. **Confirmar o e-mail antes de convidar.** Qualquer pessoa pode inscrever o e-mail de outra. O primeiro e-mail do teste deve pedir confirmação ("clique para confirmar que quer testar"), e quem não confirmar sai da lista.
+4. **Conferir no console** que o Realtime Database não foi criado (ou está com as regras fechadas) e que o Storage, se for ativado, começa no modo de produção.
+5. **No GitHub:**
+   - ligar o *secret scanning* com *push protection* e os alertas do Dependabot (Settings › Code security);
+   - proteger o `main` contra force-push e exigir pull request;
+   - quem não quiser o e-mail pessoal nos commits pode usar o e-mail `noreply` do GitHub (Settings › Emails).
+
+Risco aceito: dá para descobrir se um e-mail específico já está na lista, porque a tentativa de inscrevê-lo de novo é recusada. Isso evita inscrições duplicadas e não expõe nenhum outro dado.
+
 ## LGPD
 
 - A pessoa consente ao marcar a caixa. A finalidade é só avisar quando o app estiver pronto para teste.
