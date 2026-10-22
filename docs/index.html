@@ -159,29 +159,29 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .today-card { display: block; width: 100%; border-radius: 22px; overflow: hidden; box-shadow: 0 6px 18px rgba(11,13,114,.14); }
 .today-card > img { display: block; width: 100%; height: auto; }
 .hm-card { background: #fff; border-radius: 22px; padding: 18px; box-shadow: 0 0 12px rgba(11,13,114,.06); display: flex; flex-direction: column; gap: 14px; }
-.hm-st { display: flex; align-items: center; gap: 14px; }
-.hm-st > div:nth-child(2) { flex: 1; min-width: 0; }
-.hm-fl { width: 52px; height: 52px; border-radius: 12px; background: #FFF3E0; color: #E65100; display: grid; place-items: center; flex: none; }
-.hm-fl svg.i { width: 28px; height: 28px; }
-.hm-st .n { font-weight: 800; font-size: 30px; line-height: 1; color: var(--marinho); }
-.hm-st .d { font-weight: 700; font-size: 17px; color: var(--marinho); }
-.hm-st .r { margin-top: 4px; font-family: var(--f-ui); font-weight: 500; font-size: 12px; color: var(--suave); }
-.hm-esc { align-self: flex-start; display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 999px; background: #F4F5FB; color: var(--marinho); font-family: var(--f-ui); font-weight: 600; font-size: 12px; white-space: nowrap; }
-.hm-esc svg.i { width: 15px; height: 15px; }
-.hm-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); column-gap: 4px; text-align: center; }
-.hm-week small { font-family: var(--f-ui); font-weight: 500; font-size: 11px; color: var(--suave); }
-.hm-week .t small { color: var(--marinho); font-weight: 700; }
-.hm-dot { width: 38px; max-width: 100%; aspect-ratio: 1; margin: 8px auto 0; border-radius: 999px; background: #ECEEF8; color: #fff; display: grid; place-items: center; }
-.hm-dot.done { background: var(--marinho); }
-.hm-dot.today { background: #FFF3E0; color: #E65100; border: 2px dashed #E65100; }
-.hm-dot.today.done { background: var(--marinho); color: #fff; border: 0; }
-.hm-dot svg.i { width: 16px; height: 16px; stroke-width: 2.8; }
-.hm-dot.today:not(.done) svg.i { width: 18px; height: 18px; stroke-width: 2; }
-.hm-medal { background: #F4F5FB; border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
-.hm-medal .t { display: flex; align-items: center; gap: 8px; font-family: var(--f-ui); font-weight: 500; font-size: 12.5px; color: #101021; }
-.hm-medal .t svg.i { width: 16px; height: 16px; color: var(--marinho); }
-.hm-bar { height: 6px; border-radius: 99px; background: #D5D7EE; overflow: hidden; }
-.hm-bar i { display: block; height: 100%; border-radius: 99px; background: #7D80FE; }
+/* Sequência: chama grande com o número, semana em círculos, divisória e recorde. */
+.hm-stk { align-items: center; text-align: center; gap: 12px; padding-top: 20px; }
+.stk-fl { position: relative; width: 96px; height: 112px; margin-bottom: -4px; }
+.stk-fl svg { width: 100%; height: 100%; overflow: visible; transform-origin: 50% 90%; animation: chama 3.2s ease-in-out infinite; filter: drop-shadow(0 10px 16px rgba(240,100,30,.3)); }
+@keyframes chama { 50% { transform: scale(1.03, .98) rotate(-1.5deg); } }
+.stk-fl b { position: absolute; left: 0; right: 0; top: 50px; font-weight: 800; font-size: 40px; line-height: 1; color: #fff; text-shadow: 0 2px 6px rgba(160,50,0,.35); }
+.stk-t b { display: block; font-weight: 700; font-size: 17px; color: #101021; }
+.stk-t small { display: block; margin-top: 3px; font-family: var(--f-ui); font-weight: 500; font-size: 12px; color: var(--suave); }
+.stk-wk { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); width: 100%; margin-top: 4px; column-gap: 4px; }
+.stk-wk > div { display: flex; flex-direction: column; align-items: center; gap: 7px; }
+.stk-wk small { font-family: var(--f-ui); font-weight: 600; font-size: 11.5px; color: var(--suave); }
+.stk-wk .t small { color: var(--marinho); font-weight: 800; }
+.stk-d { width: 36px; max-width: 100%; aspect-ratio: 1; border-radius: 999px; display: grid; place-items: center; background: #EEEFF6; color: #A9ABC6; }
+.stk-d svg { width: 18px; height: 18px; }
+.stk-d.done { background: linear-gradient(160deg, #FF9B57, #F0641E); color: #fff; box-shadow: 0 4px 10px rgba(240,100,30,.3); }
+.stk-d.today:not(.done) { background: #FFF3E8; color: #F0641E; box-shadow: inset 0 0 0 2px #FFB47A; }
+.stk-d.rest svg { width: 12px; height: 12px; }
+.stk-d.fut { background: #F4F5FA; }
+.stk-hr { width: 100%; height: 1px; margin: 6px 0 2px; border: 0; background: rgba(11,13,114,.08); }
+.stk-best b { display: block; font-weight: 800; font-size: 34px; line-height: 1; color: #101021; }
+.stk-best span { display: block; margin-top: 4px; font-weight: 700; font-size: 14px; color: #101021; }
+.stk-msg { margin: 0; max-width: 300px; font-family: var(--f-ui); font-weight: 500; font-size: 13px; line-height: 1.45; color: #4A4C7A; }
+.stk-msg b { color: var(--marinho); }
 .hm-calt { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .hm-calt b { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 16px; color: var(--marinho); }
 .hm-calt b svg.i { width: 18px; height: 18px; stroke-width: 2.4; }
@@ -242,7 +242,7 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .hm-lt { display: flex; justify-content: space-between; align-items: center; margin-bottom: -6px; }
 .hm-lt b { font-weight: 700; font-size: 16px; color: var(--marinho); }
 .hm-lt button { padding: 10px 0 10px 10px; font-family: var(--f-ui); font-weight: 600; font-size: 12px; color: #7D80FE; }
-@media (max-width: 380px) { .hm-card { padding: 16px; } .hm-st { gap: 12px; } .hm-fl { width: 46px; height: 46px; } .hm-st .n { font-size: 26px; } .hm-st .d { font-size: 15px; } .hm-esc { padding: 5px 9px; font-size: 11px; } .hm-res > div { padding: 9px 10px; } .hm-res small { white-space: normal; font-size: 10px; } }
+@media (max-width: 380px) { .hm-card { padding: 16px; } .hm-res > div { padding: 9px 10px; } .hm-res small { white-space: normal; font-size: 10px; } }
 .empty { padding: 16px; border-radius: 16px; background: rgba(255,255,255,.6); box-shadow: inset 0 0 0 1px rgba(125,128,254,.35); font-family: var(--f-ui); font-size: 13px; color: var(--suave); }
 
 /* Treinos */
@@ -1017,7 +1017,6 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .go-b { position: absolute; left: 3%; bottom: 8.5%; width: 35%; height: 21.5%; border-radius: 26px; }
 .go-b:focus-visible { outline-offset: 0; }
 .hm-seq { margin-left: 6px; font-family: var(--f-ui); font-weight: 500; font-size: 12px; color: var(--suave); }
-.hm-medal .t span small { display: block; margin-top: 2px; font-size: 11.5px; color: var(--suave); }
 .nx-card { padding: 14px 16px; border-radius: 20px; background: #fff; border: 1px solid #ECEEF8; box-shadow: 0 2px 12px rgba(11,13,114,.06); }
 .nx-card > b { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; color: var(--marinho); }
 .nx-card > b img { width: 28px; height: 28px; border-radius: 999px; background: #06072B; }
@@ -1227,7 +1226,10 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .fr-ds-bar i { display: block; height: 100%; border-radius: 99px; background: #9EA1FF; }
 .fr-ds-s { color: #fff !important; font-weight: 600; }
 /* Ranking: palco com raios de luz, pódio com profundidade (face de cima em perspectiva) e lista em folha. */
-.fr-mt { grid-template-columns: 1fr 1fr; }
+.fr-wkr { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 2px 0 6px; flex-wrap: wrap; }
+.fr-wkr .fr-wk { margin: 0; }
+.fr-ord { display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 0 11px; border-radius: 999px; background: #fff; box-shadow: 0 2px 8px rgba(11,13,114,.1), inset 0 0 0 1px rgba(125,128,254,.35); font-family: var(--f-ui); font-weight: 700; font-size: 11.5px; color: var(--marinho); }
+.fr-ord svg { width: 13px; height: 13px; }
 .fr-stage { position: relative; isolation: isolate; margin: -2px calc(-1 * var(--gr)) 0 calc(-1 * var(--gl)); padding: 4px var(--gr) 0 var(--gl); overflow: hidden; }
 .fr-stage::before { content: ''; position: absolute; z-index: -1; left: 50%; top: 70px; width: 620px; height: 620px; transform: translate(-50%, -38%); border-radius: 50%; background: repeating-conic-gradient(from 4deg, rgba(255,255,255,.7) 0deg 7deg, rgba(255,255,255,0) 7deg 18deg); -webkit-mask: radial-gradient(closest-side, #000 18%, transparent 72%); mask: radial-gradient(closest-side, #000 18%, transparent 72%); }
 .fr-wk { display: table; margin: 2px auto 6px; padding: 5px 12px; border-radius: 999px; background: #F5EBC5; box-shadow: 0 2px 8px rgba(160,110,0,.15); font-family: var(--f-ui); font-weight: 700; font-size: 11.5px; color: #6B4E00; }
@@ -1540,7 +1542,7 @@ const W = {
 const fresh = () => ({
   v: 1, screen: 'welcome', params: {}, stack: [], demo: false,
   user: { nome: '', idade: '', genero: '', objetivo: 'Ganhar massa', modo: 'Guiado', nivel: 'Iniciante', dias: 4, restricoes: '', termos: false },
-  level: 1, xp: 0, shields: 1, bestW: 0,
+  level: 1, xp: 0, bestW: 0,
   water: { day: dayKey(), ml: 0, bonus: false, log: [] },
   history: [], weeksSeed: [0, 0, 0, 0, 0], records: {}, photos: [],
   workout: null, result: null, share: { tpl: 'metricas', dest: 'stories', cal: true, photo: null }, created: dayKey(), lastSets: {}
@@ -1927,8 +1929,8 @@ const avatarHTML = () => `<div class="hm-av"><div class="c"><img src="${IMG.avat
 V.home = () => {
   const u = S.user; const today = new Date(); const tk = dayKey(); const wid = todaysWorkout();
   const trainedToday = S.history.some(h => h.day === tk); const si = streakInfo(); const ws = weekStart();
-  const week = Array.from({ length: 7 }, (_, i) => { const k = dayKey(addDays(i, ws)); return { k, lbl: ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'][i], done: S.history.some(h => h.day === k), today: k === tk }; });
-  const goalMsg = si.done >= si.meta ? 'Meta batida! Pode descansar sem culpa: a chama está garantida.' : si.left > si.avail ? `Semana apertada: ${si.shields ? 'seu escudo protege a sequência' : 'na próxima a gente recomeça'}.` : `${si.left === 1 ? 'Falta 1 treino' : `Faltam ${si.left} treinos`} até domingo para manter a chama.`;
+  const week = Array.from({ length: 7 }, (_, i) => { const k = dayKey(addDays(i, ws)); return { k, lbl: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'][i], done: S.history.some(h => h.day === k), today: k === tk }; });
+  const goalMsg = si.done >= si.meta ? 'Meta batida! Pode descansar sem culpa: a chama está garantida.' : si.left > si.avail ? 'Não dá mais para bater a meta desta semana. Na próxima a gente reacende a chama!' : `${si.left === 1 ? 'Falta 1 treino' : `Faltam ${si.left} treinos`} até domingo para manter a chama.`;
   const rot = rotOf(); const seqI = rot.indexOf(wid);
   const y = today.getFullYear(), m = today.getMonth(); const dim = new Date(y, m + 1, 0).getDate(); const first = (new Date(y, m, 1).getDay() + 6) % 7;
   const mk = `${y}-${String(m + 1).padStart(2, '0')}`;
@@ -1952,12 +1954,13 @@ V.home = () => {
     <div class="hm-lbl">${trainedToday ? 'Próximo treino' : 'Treino de hoje'}${seqI >= 0 ? `<span class="hm-seq">${'ABCDEF'[seqI]} de ${rot.length} da sua sequência</span>` : ''}</div>
     <div class="fc"><button class="today-card" data-a="openWorkout" data-v="${wid}" aria-label="Ver treino ${W[wid].nome}">${wcard(wid)}</button><button class="go-b" data-a="start" data-v="${wid}" aria-label="Começar ${W[wid].nome} agora"></button></div>
     ${esperaCard()}
-    <div class="hm-card">
-      <div class="hm-st"><div class="hm-fl">${ic('flame')}</div>
-        <div><div class="row" style="gap:6px;align-items:baseline"><span class="n">${si.n}</span><span class="d">${si.n === 1 ? 'semana seguida' : 'semanas seguidas'}</span></div><div class="r">Meta: ${si.meta} treinos por semana · recorde ${si.best}</div></div>
-        <span class="hm-esc">${ic('shield')} ${si.shields} ${si.shields === 1 ? 'escudo' : 'escudos'}</span></div>
-      <div class="hm-week">${week.map(w => `<div class="${w.today ? 't' : ''}"><small>${w.lbl}</small><div class="hm-dot ${w.done ? 'done' : ''} ${w.today ? 'today' : ''}">${w.done ? ic('check') : w.today ? ic('flame') : ''}</div></div>`).join('')}</div>
-      <div class="hm-medal"><div class="t">${ic(si.done >= si.meta ? 'trophy' : 'target')} <span><b>${Math.min(si.done, si.meta)} de ${si.meta} treinos</b> nesta semana<small>${goalMsg}</small></span></div><div class="hm-bar"><i style="width:${Math.min(100, si.done / si.meta * 100)}%"></i></div></div>
+    <div class="hm-card hm-stk">
+      <div class="stk-fl" role="img" aria-label="${si.n} ${si.n === 1 ? 'semana seguida' : 'semanas seguidas'}">${FLAME_BIG}<b class="tnum">${si.n}</b></div>
+      <div class="stk-t"><b>${si.n ? `${si.n === 1 ? 'semana seguida' : 'semanas seguidas'} batendo a meta!` : 'Bata a meta da semana para acender a chama!'}</b><small>Meta: ${si.meta} treinos por semana</small></div>
+      <div class="stk-wk">${week.map(w => `<div class="${w.today ? 't' : ''}"><small>${w.lbl}</small><span class="stk-d ${w.done ? 'done' : w.today ? 'today' : w.k < tk ? 'rest' : 'fut'}" aria-label="${w.lbl}: ${w.done ? 'treinou' : w.today ? 'hoje, ainda sem treino' : w.k < tk ? 'descanso' : 'ainda não chegou'}">${w.done || w.today ? ic('flame') : w.k < tk ? ic('minus') : ''}</span></div>`).join('')}</div>
+      <hr class="stk-hr">
+      <div class="stk-best"><b class="tnum">${si.best}</b><span>Maior sequência (semanas)</span></div>
+      <p class="stk-msg"><b>${Math.min(si.done, si.meta)} de ${si.meta} treinos</b> nesta semana. ${goalMsg}</p>
     </div>
     ${frHome()}
     <div class="hm-card hm-cal">
@@ -2558,25 +2561,27 @@ const rotOf = () => ROT[S.user.objetivo] || ROT['Saúde geral'];
 function todaysWorkout() { const r = rotOf(); const last = [...S.history].reverse().map(widOf).find(k => r.includes(k)); return last ? r[(r.indexOf(last) + 1) % r.length] : r[0]; }
 
 // Sequência semanal: semanas (seg–dom) batendo a meta de treinos do programa.
-// A semana atual só soma quando bate a meta; um escudo cobre uma semana perdida; a primeira semana do histórico não gasta escudo.
+// A semana atual só soma quando bate a meta; uma semana passada abaixo da meta zera a sequência.
+// Chama grande do cartão de sequência (o número fica por cima, em HTML).
+const FLAME_BIG = '<svg viewBox="0 0 96 112" aria-hidden="true"><defs><linearGradient id="fla" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB15C"/><stop offset="1" stop-color="#F0561E"/></linearGradient><linearGradient id="flb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD9A0"/><stop offset="1" stop-color="#FF9B57"/></linearGradient></defs><path fill="url(#fla)" d="M50 2c4 18 22 28 30 46 11 25 1 52-22 60-22 8-48-4-52-28-3-17 6-29 14-39 1 9 5 15 11 17-3-20 5-38 19-56z"/><path fill="url(#flb)" opacity=".9" d="M48 46c7 10 20 17 20 34 0 13-9 22-20 22s-21-9-21-21c0-11 7-18 12-24 1 5 3 8 6 9-1-7 0-13 3-20z"/></svg>';
 const weekStart = (d = addDays(0)) => addDays(-((d.getDay() + 6) % 7), d);
 const wkTrained = ws => { const a = dayKey(ws), b = dayKey(addDays(6, ws)); return new Set(S.history.filter(h => h.day >= a && h.day <= b).map(h => h.day)).size; };
 function streakInfo() {
   const meta = Math.max(1, +S.user.dias || 3); const cur = weekStart(); const done = wkTrained(cur);
   const first = S.history.length ? weekStart(new Date(S.history.reduce((a, h) => (h.day < a ? h.day : a), S.history[0].day) + 'T12:00')) : cur;
-  let n = done >= meta ? 1 : 0; const shields = S.shields ?? 1; let used = 0;
+  let n = done >= meta ? 1 : 0;
   for (let w = addDays(-7, cur); dayKey(w) >= dayKey(first); w = addDays(-7, w)) {
-    if (wkTrained(w) >= meta) n++; else if (dayKey(w) !== dayKey(first) && used < shields) used++; else break;
+    if (wkTrained(w) >= meta) n++; else break;
   }
   const trainedToday = S.history.some(h => h.day === dayKey());
   const avail = 7 - ((new Date().getDay() + 6) % 7) - (trainedToday ? 1 : 0);
-  return { n, meta, done, left: Math.max(0, meta - done), shields: shields - used, avail, best: Math.max(S.bestW || 0, n) };
+  return { n, meta, done, left: Math.max(0, meta - done), avail, best: Math.max(S.bestW || 0, n) };
 }
 
 function buildNotifs() {
   const nf = { treino: true, streak: true, novidades: false, ...S.notif }; const tk = dayKey(); const out = [];
   const trained = S.history.some(h => h.day === tk); const si = streakInfo();
-  if (nf.streak && si.left > 0) out.push({ id: `streak-${tk}`, ic: 'flame', cor: 'orange', t: si.left > si.avail ? 'Semana apertada: seu escudo segura a chama' : `Faltam ${si.left} ${si.left === 1 ? 'treino' : 'treinos'} para bater a meta da semana`, x: si.n ? `Você está em ${si.n} ${si.n === 1 ? 'semana seguida' : 'semanas seguidas'}. A semana fecha no domingo.` : `Bata ${si.meta} treinos até domingo para acender a chama.`, q: 'Agora', go: 'treinos' });
+  if (nf.streak && si.left > 0) out.push({ id: `streak-${tk}`, ic: 'flame', cor: 'orange', t: si.left > si.avail ? 'Semana apertada: a meta não fecha mais' : `Faltam ${si.left} ${si.left === 1 ? 'treino' : 'treinos'} para bater a meta da semana`, x: si.n ? `Você está em ${si.n} ${si.n === 1 ? 'semana seguida' : 'semanas seguidas'}. A semana fecha no domingo.` : `Bata ${si.meta} treinos até domingo para acender a chama.`, q: 'Agora', go: 'treinos' });
   if (nf.treino && !trained) out.push({ id: `treino-${tk}`, ic: 'dumbbell', cor: 'navy', t: `Treino de hoje: ${W[todaysWorkout()].nome}`, x: `O Calipe separou ${W[todaysWorkout()].ex.length} exercícios para você.`, q: '08:00', go: 'treinos' });
   const w = S.water.day === tk ? S.water.ml : 0;
   if (w < waterGoal()) out.push({ id: `agua-${tk}`, ic: 'drop', cor: 'blue', t: 'Hora de um gole d’água', x: `Você está em ${(w / 1000).toFixed(1).replace('.', ',')} L de ${META.agua.fmt(waterGoal())} L hoje. Bater a meta vale +${XP.agua} XP.`, q: '10:30', go: 'agua' });
@@ -3112,6 +3117,7 @@ const TRI = '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1.5 9.2 8.5
 const trend = (r, ant) => { const d = (ant[r.id] || r.pos) - r.pos; return d > 0 ? `<span class="fr-tr up" aria-label="Subiu ${d} ${d === 1 ? 'posição' : 'posições'} desde a semana passada">${TRI}${d}</span>` : d < 0 ? `<span class="fr-tr down" aria-label="Caiu ${-d} ${d === -1 ? 'posição' : 'posições'} desde a semana passada">${TRI}${-d}</span>` : '<span class="fr-tr eq" aria-label="Mesma posição da semana passada">–</span>'; };
 const CROWN = '<svg class="fr-crown" viewBox="0 0 34 24" aria-hidden="true"><defs><linearGradient id="crg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE48A"/><stop offset="1" stop-color="#E3A92B"/></linearGradient></defs><path d="M3 20 5 7l7 6 5-10 5 10 7-6 2 13z" fill="url(#crg)" stroke="#C98A0A" stroke-width="1.2" stroke-linejoin="round"/><rect x="3" y="19" width="28" height="4" rx="2" fill="#E3A92B"/><circle cx="5" cy="6" r="2" fill="#FFE48A"/><circle cx="17" cy="2.6" r="2" fill="#FFE48A"/><circle cx="29" cy="6" r="2" fill="#FFE48A"/></svg>';
 const LAUREL = (() => { const lf = [[23, 25, -15], [16.5, 22, -35], [11.5, 17, -52], [8, 11, -68], [6.5, 5, -84]].map(([x, y, a]) => `<ellipse cx="${x}" cy="${y}" rx="4" ry="1.9" transform="rotate(${a} ${x} ${y})"/>`).join(''); return `<svg viewBox="0 0 60 30" fill="currentColor" aria-hidden="true"><g>${lf}</g><g transform="matrix(-1 0 0 1 60 0)">${lf}</g></svg>`; })();
+const SWAP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M21 16l-4 4-4-4"/></svg>';
 const CHEV_UP = '<svg viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9.5 11 4l6 5.5"/></svg>';
 const RANK_M = { wx: ['XP', v => `${fmt(v)} XP`], wt: ['Treinos', v => `${v} ${v === 1 ? 'treino' : 'treinos'}`] };
 function ranking(m = 'wx') { const me = meStats(); return frAll().concat([me]).sort((a, b) => b[m] - a[m] || (a.id === 'me' ? 1 : b.id === 'me' ? -1 : 0)).map((f, i) => ({ ...f, pos: i + 1 })); }
@@ -3161,9 +3167,9 @@ function rankView() {
   const m = S.rankM || 'wx'; const rk = ranking(m); const ant = posAnt(m); const fmtV = RANK_M[m][1]; const top = rk.slice(0, 3); const me = rk.find(r => r.id === 'me'); const above = rk[me.pos - 2];
   const pod = [top[1], top[0], top[2]].filter(Boolean); const ws = weekStart(), we = addDays(6, ws); const left = daysLeft();
   const nome = r => r.id === 'me' ? 'Você' : esc(r.nome.split(' ')[0]);
-  return `<div class="pg-seg fr-mt" role="radiogroup" aria-label="Comparar por" data-pane=".fr-stage, .fr-sheet">${Object.entries(RANK_M).map(([k, [l]]) => `<button role="radio" aria-checked="${m === k}" class="${m === k ? 'on' : ''}" data-a="rankM" data-v="${k}">${l} da semana</button>`).join('')}</div>
-    <div class="fr-stage">
-      <span class="fr-wk">Semana de ${ws.getDate()} a ${we.getDate()} de ${MES3[we.getMonth()]} · ${left ? `zera em ${left} ${left === 1 ? 'dia' : 'dias'}` : 'zera hoje à noite'}</span>
+  const outro = m === 'wx' ? 'wt' : 'wx';
+  return `<div class="fr-stage">
+      <div class="fr-wkr"><span class="fr-wk">Semana ${ws.getDate()}–${we.getDate()} ${MES3[we.getMonth()]} · ${left ? `zera em ${left} ${left === 1 ? 'dia' : 'dias'}` : 'zera hoje à noite'}</span><button class="fr-ord" data-a="rankM" data-v="${outro}" aria-label="Ranking por ${RANK_M[m][0]}. Trocar para ${RANK_M[outro][0]}">${SWAP} ${RANK_M[m][0]}</button></div>
       <div class="fr-pod">${pod.map(r => `<button class="fr-pd p${r.pos} ${r.id === 'me' ? 'me' : ''}" ${r.id === 'me' ? 'data-a="frTab" data-v="feed"' : `data-a="openCmp" data-v="${r.id}"`} aria-label="${r.pos}º lugar: ${r.id === 'me' ? 'você' : esc(r.nome)}, ${fmtV(r[m])}">
         <span class="fr-who">${r.pos === 1 ? CROWN : ''}<span class="fr-ring">${frAv(r, r.pos === 1 ? 70 : 56)}</span><b>${nome(r)}</b><small class="fr-pts tnum">${fmtV(r[m])}</small></span>
         <span class="fr-blk"><i class="tnum">${r.pos}</i>${LAUREL}</span></button>`).join('')}</div>
